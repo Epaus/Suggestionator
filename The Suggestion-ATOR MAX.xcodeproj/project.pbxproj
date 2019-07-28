@@ -1,0 +1,358 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE1CD06222EE1A7700BD4321 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06122EE1A7700BD4321 /* AppDelegate.swift */; };
+		CE1CD06422EE1A7700BD4321 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06322EE1A7700BD4321 /* ViewController.swift */; };
+		CE1CD06722EE1A7700BD4321 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1CD06522EE1A7700BD4321 /* Main.storyboard */; };
+		CE1CD06A22EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06822EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld */; };
+		CE1CD06C22EE1A7900BD4321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE1CD06B22EE1A7900BD4321 /* Assets.xcassets */; };
+		CE1CD06F22EE1A7900BD4321 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1CD06D22EE1A7900BD4321 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CE1CD05E22EE1A7700BD4321 /* The Suggestion-ATOR MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Suggestion-ATOR MAX.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE1CD06122EE1A7700BD4321 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE1CD06322EE1A7700BD4321 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE1CD06622EE1A7700BD4321 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE1CD06922EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = The_Suggestion_ATOR_MAX.xcdatamodel; sourceTree = "<group>"; };
+		CE1CD06B22EE1A7900BD4321 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE1CD06E22EE1A7900BD4321 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE1CD07022EE1A7900BD4321 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE1CD05B22EE1A7700BD4321 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE1CD05522EE1A7700BD4321 = {
+			isa = PBXGroup;
+			children = (
+				CE1CD06022EE1A7700BD4321 /* The Suggestion-ATOR MAX */,
+				CE1CD05F22EE1A7700BD4321 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE1CD05F22EE1A7700BD4321 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CD05E22EE1A7700BD4321 /* The Suggestion-ATOR MAX.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE1CD06022EE1A7700BD4321 /* The Suggestion-ATOR MAX */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CD06122EE1A7700BD4321 /* AppDelegate.swift */,
+				CE1CD06322EE1A7700BD4321 /* ViewController.swift */,
+				CE1CD06522EE1A7700BD4321 /* Main.storyboard */,
+				CE1CD06B22EE1A7900BD4321 /* Assets.xcassets */,
+				CE1CD06D22EE1A7900BD4321 /* LaunchScreen.storyboard */,
+				CE1CD07022EE1A7900BD4321 /* Info.plist */,
+				CE1CD06822EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld */,
+			);
+			path = "The Suggestion-ATOR MAX";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE1CD05D22EE1A7700BD4321 /* The Suggestion-ATOR MAX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE1CD07322EE1A7900BD4321 /* Build configuration list for PBXNativeTarget "The Suggestion-ATOR MAX" */;
+			buildPhases = (
+				CE1CD05A22EE1A7700BD4321 /* Sources */,
+				CE1CD05B22EE1A7700BD4321 /* Frameworks */,
+				CE1CD05C22EE1A7700BD4321 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "The Suggestion-ATOR MAX";
+			productName = "The Suggestion-ATOR MAX";
+			productReference = CE1CD05E22EE1A7700BD4321 /* The Suggestion-ATOR MAX.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE1CD05622EE1A7700BD4321 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Paus Productions";
+				TargetAttributes = {
+					CE1CD05D22EE1A7700BD4321 = {
+						CreatedOnToolsVersion = 10.3;
+					};
+				};
+			};
+			buildConfigurationList = CE1CD05922EE1A7700BD4321 /* Build configuration list for PBXProject "The Suggestion-ATOR MAX" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE1CD05522EE1A7700BD4321;
+			productRefGroup = CE1CD05F22EE1A7700BD4321 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE1CD05D22EE1A7700BD4321 /* The Suggestion-ATOR MAX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE1CD05C22EE1A7700BD4321 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE1CD06F22EE1A7900BD4321 /* LaunchScreen.storyboard in Resources */,
+				CE1CD06C22EE1A7900BD4321 /* Assets.xcassets in Resources */,
+				CE1CD06722EE1A7700BD4321 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE1CD05A22EE1A7700BD4321 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE1CD06422EE1A7700BD4321 /* ViewController.swift in Sources */,
+				CE1CD06A22EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld in Sources */,
+				CE1CD06222EE1A7700BD4321 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CE1CD06522EE1A7700BD4321 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE1CD06622EE1A7700BD4321 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE1CD06D22EE1A7900BD4321 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE1CD06E22EE1A7900BD4321 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE1CD07122EE1A7900BD4321 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CE1CD07222EE1A7900BD4321 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE1CD07422EE1A7900BD4321 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SV69BK44Z9;
+				INFOPLIST_FILE = "The Suggestion-ATOR MAX/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Paus-Productions.The-Suggestion-ATOR-MAX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE1CD07522EE1A7900BD4321 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SV69BK44Z9;
+				INFOPLIST_FILE = "The Suggestion-ATOR MAX/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Paus-Productions.The-Suggestion-ATOR-MAX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE1CD05922EE1A7700BD4321 /* Build configuration list for PBXProject "The Suggestion-ATOR MAX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE1CD07122EE1A7900BD4321 /* Debug */,
+				CE1CD07222EE1A7900BD4321 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE1CD07322EE1A7900BD4321 /* Build configuration list for PBXNativeTarget "The Suggestion-ATOR MAX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE1CD07422EE1A7900BD4321 /* Debug */,
+				CE1CD07522EE1A7900BD4321 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CE1CD06822EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CE1CD06922EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodel */,
+			);
+			currentVersion = CE1CD06922EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodel */;
+			path = The_Suggestion_ATOR_MAX.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = CE1CD05622EE1A7700BD4321 /* Project object */;
+}
