@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AskFor" representedClassName="AskFor" syncable="YES" codeGenerationType="class">
+        <attribute name="askFor" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hasSuggestions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Suggestion" inverseName="ofAskFor" inverseEntity="Suggestion" syncable="YES"/>
+        <relationship name="isOfCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SceneCategory" inverseName="hasAskFors" inverseEntity="SceneCategory" syncable="YES"/>
+    </entity>
+    <entity name="SceneCategory" representedClassName="SceneCategory" syncable="YES" codeGenerationType="class">
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="hasAskFors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AskFor" inverseName="isOfCategory" inverseEntity="AskFor" syncable="YES"/>
+    </entity>
+    <entity name="Suggestion" representedClassName="Suggestion" syncable="YES" codeGenerationType="class">
+        <attribute name="suggestion" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="ofAskFor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AskFor" inverseName="hasSuggestions" inverseEntity="AskFor" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SceneCategory" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="AskFor" positionX="-54" positionY="0" width="128" height="90"/>
+        <element name="Suggestion" positionX="-36" positionY="18" width="128" height="75"/>
+    </elements>
 </model>

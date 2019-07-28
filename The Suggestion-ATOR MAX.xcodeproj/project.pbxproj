@@ -8,22 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		CE1CD06222EE1A7700BD4321 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06122EE1A7700BD4321 /* AppDelegate.swift */; };
-		CE1CD06422EE1A7700BD4321 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06322EE1A7700BD4321 /* ViewController.swift */; };
-		CE1CD06722EE1A7700BD4321 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1CD06522EE1A7700BD4321 /* Main.storyboard */; };
+		CE1CD06422EE1A7700BD4321 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06322EE1A7700BD4321 /* MainViewController.swift */; };
 		CE1CD06A22EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD06822EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld */; };
 		CE1CD06C22EE1A7900BD4321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE1CD06B22EE1A7900BD4321 /* Assets.xcassets */; };
 		CE1CD06F22EE1A7900BD4321 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1CD06D22EE1A7900BD4321 /* LaunchScreen.storyboard */; };
+		CE1CD07822EE39AD00BD4321 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD07722EE39AD00BD4321 /* UIColor.swift */; };
+		CE1CD07B22EE3F6E00BD4321 /* SuggestionCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD07A22EE3F6E00BD4321 /* SuggestionCategoryTableViewController.swift */; };
+		CE1CD07D22EE3F9700BD4321 /* RandomizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CD07C22EE3F9700BD4321 /* RandomizerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CE1CD05E22EE1A7700BD4321 /* The Suggestion-ATOR MAX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Suggestion-ATOR MAX.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1CD06122EE1A7700BD4321 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CE1CD06322EE1A7700BD4321 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		CE1CD06622EE1A7700BD4321 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE1CD06322EE1A7700BD4321 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CE1CD06922EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = The_Suggestion_ATOR_MAX.xcdatamodel; sourceTree = "<group>"; };
 		CE1CD06B22EE1A7900BD4321 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE1CD06E22EE1A7900BD4321 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE1CD07022EE1A7900BD4321 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE1CD07722EE39AD00BD4321 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		CE1CD07A22EE3F6E00BD4321 /* SuggestionCategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCategoryTableViewController.swift; sourceTree = "<group>"; };
+		CE1CD07C22EE3F9700BD4321 /* RandomizerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomizerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,14 +61,32 @@
 			isa = PBXGroup;
 			children = (
 				CE1CD06122EE1A7700BD4321 /* AppDelegate.swift */,
-				CE1CD06322EE1A7700BD4321 /* ViewController.swift */,
-				CE1CD06522EE1A7700BD4321 /* Main.storyboard */,
+				CE1CD07922EE3F3600BD4321 /* Controllers */,
+				CE1CD07622EE398400BD4321 /* Extensions */,
 				CE1CD06B22EE1A7900BD4321 /* Assets.xcassets */,
 				CE1CD06D22EE1A7900BD4321 /* LaunchScreen.storyboard */,
 				CE1CD07022EE1A7900BD4321 /* Info.plist */,
 				CE1CD06822EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld */,
 			);
 			path = "The Suggestion-ATOR MAX";
+			sourceTree = "<group>";
+		};
+		CE1CD07622EE398400BD4321 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CD07722EE39AD00BD4321 /* UIColor.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CE1CD07922EE3F3600BD4321 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CD06322EE1A7700BD4321 /* MainViewController.swift */,
+				CE1CD07A22EE3F6E00BD4321 /* SuggestionCategoryTableViewController.swift */,
+				CE1CD07C22EE3F9700BD4321 /* RandomizerViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +149,6 @@
 			files = (
 				CE1CD06F22EE1A7900BD4321 /* LaunchScreen.storyboard in Resources */,
 				CE1CD06C22EE1A7900BD4321 /* Assets.xcassets in Resources */,
-				CE1CD06722EE1A7700BD4321 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE1CD06422EE1A7700BD4321 /* ViewController.swift in Sources */,
+				CE1CD06422EE1A7700BD4321 /* MainViewController.swift in Sources */,
+				CE1CD07B22EE3F6E00BD4321 /* SuggestionCategoryTableViewController.swift in Sources */,
+				CE1CD07822EE39AD00BD4321 /* UIColor.swift in Sources */,
+				CE1CD07D22EE3F9700BD4321 /* RandomizerViewController.swift in Sources */,
 				CE1CD06A22EE1A7700BD4321 /* The_Suggestion_ATOR_MAX.xcdatamodeld in Sources */,
 				CE1CD06222EE1A7700BD4321 /* AppDelegate.swift in Sources */,
 			);
@@ -147,14 +171,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		CE1CD06522EE1A7700BD4321 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CE1CD06622EE1A7700BD4321 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		CE1CD06D22EE1A7900BD4321 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -217,7 +233,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -272,7 +288,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -289,6 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SV69BK44Z9;
 				INFOPLIST_FILE = "The Suggestion-ATOR MAX/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,6 +324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SV69BK44Z9;
 				INFOPLIST_FILE = "The Suggestion-ATOR MAX/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
