@@ -9,17 +9,47 @@
 import UIKit
 
 class SuggestionCategoryTableViewController: UITableViewController {
+    var names: [String] = []
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let navController = self.navigationController {
+            navController.navigationBar.barStyle = .black
+            navController.navigationBar.tintColor = .white
+            navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue
+            ]
+            navController.navigationItem.title = "Categories"
+            let homeImage = UIImage(named: "plus_small" )!
+            let home : UIBarButtonItem = UIBarButtonItem(image: homeImage,  style: .plain, target: self, action: "addButtonTapped")
+            navigationItem.rightBarButtonItem = home
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+        tableView.register(UITableViewCell.self,
+                           forCellReuseIdentifier: "Cell")
+        setupNavigationBar()
+      
         
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func setupNavigationBar() {
+        self.navigationItem.hidesBackButton = true
+        
+        let title = "Categories"
+        
+        navigationController?.navigationBar.barTintColor = UIColor.pink
+        
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        // Uncomment the following line to preserve selection between presentations
+        self.clearsSelectionOnViewWillAppear = false
+        
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        //self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
 
     // MARK: - Table view data source
 
@@ -33,15 +63,15 @@ class SuggestionCategoryTableViewController: UITableViewController {
         return 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell =
+            tableView.dequeueReusableCell(withIdentifier: "Cell",
+                                          for: indexPath)
+        cell.textLabel?.text = names[indexPath.row]
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -87,5 +117,38 @@ class SuggestionCategoryTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    @IBAction func addName(_ sender: UIBarButtonItem) {
+        
+        let alert = UIAlertController(title: "New Name",
+                                      message: "Add a new name",
+                                      preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: "Save",
+                                       style: .default) {
+                                        [unowned self] action in
+                                        
+                                        guard let textField = alert.textFields?.first,
+                                            let nameToSave = textField.text else {
+                                                return
+                                        }
+                                        
+                                        self.names.append(nameToSave)
+                                        self.tableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .cancel)
+        
+        alert.addTextField()
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    @objc func addButtonTapped() {
+        print("addButtonTapped")
+    }
 
 }

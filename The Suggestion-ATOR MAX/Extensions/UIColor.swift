@@ -32,7 +32,9 @@ extension UIColor {
         let color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
         return color
     }
-    
+    static let pink: UIColor = .hexToColor(hexString: "#FA027E")
+    static let backgroundPink: UIColor = .hexToColor(hexString: "#FFC9E4")
+    static let backgroundBlue: UIColor = .hexToColor(hexString: "#007AFF")
     static let softGray: UIColor = .hexToColor(hexString: "#8E8E93")
     static let cellGray: UIColor = .hexToColor(hexString: "#FFFFFF")
     static let medicalCityBlue: UIColor = .hexToColor(hexString: "#0C233F")

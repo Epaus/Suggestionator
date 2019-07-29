@@ -8,10 +8,13 @@
 
 import UIKit
 
-class RandomizerViewController: UIViewController {
-
+class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+   
+    
+    lazy var randomizerView = RandomizerView()
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(randomizerView)
 
         // Do any additional setup after loading the view.
     }
@@ -26,5 +29,14 @@ class RandomizerViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // Mark: - PickerView delegate and datasource functions
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return SuggestionCategory().categories.count
+    }
 
 }

@@ -23,8 +23,12 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     func setupTabBar() {
         tabBarController?.delegate = self
         tabBarController?.tabBar.delegate = self
-        tabBar.barTintColor = .white
-        tabBar.isTranslucent = false
+        tabBar.barTintColor = .backgroundBlue
+        tabBar.isTranslucent = true
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.backgroundPink], for:.normal)
+         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for:.selected)
+        tabBar.unselectedItemTintColor = .backgroundPink
+        tabBar.tintColor = .white
         viewControllers = [randomizerVC, catalogVC]
         
         _ = viewControllers!.map( { $0.tabBarItem = createTabBarItems(viewController: $0) })
@@ -35,7 +39,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
             tag += 1
         } while tag < viewControllers!.count
         
-        selectedIndex = 1
+        selectedIndex = 0
     }
     
     
