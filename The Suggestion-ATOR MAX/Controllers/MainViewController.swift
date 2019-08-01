@@ -11,7 +11,7 @@ import UIKit
 class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     var randomizerVC =  RandomizerViewController()
     var catalogVC = SuggestionCategoryTableViewController()
-    
+    var navController = UINavigationController()
    
     
     override func viewDidLoad() {
@@ -29,7 +29,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
          UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for:.selected)
         tabBar.unselectedItemTintColor = .backgroundPink
         tabBar.tintColor = .white
-        viewControllers = [randomizerVC, catalogVC]
+        navController = UINavigationController(rootViewController: catalogVC)
+        viewControllers = [randomizerVC, navController] 
         
         _ = viewControllers!.map( { $0.tabBarItem = createTabBarItems(viewController: $0) })
         
@@ -54,7 +55,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
             title = "Randomizer"
             image = UIImage(named: "shoutIconSmall.png")!
             selectedImage = image
-        case catalogVC:
+        case navController:
             title = "Catalog"
             image = UIImage(named: "plus_small.png")!
             selectedImage = image

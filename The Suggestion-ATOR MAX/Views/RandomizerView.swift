@@ -62,9 +62,6 @@ class RandomizerView : UIView {
             pickerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pickerStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
-       
-        
-        
     }
 
 }

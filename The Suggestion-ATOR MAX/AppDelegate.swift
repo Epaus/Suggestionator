@@ -21,11 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let tabBarController = MainViewController()
-        window?.rootViewController = UINavigationController(rootViewController: tabBarController)
-        UINavigationBar.appearance().barTintColor = UIColor.pink
-        UINavigationBar.appearance().tintColor = .white
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-
+        window?.rootViewController = tabBarController
+        
         return true
     }
 
