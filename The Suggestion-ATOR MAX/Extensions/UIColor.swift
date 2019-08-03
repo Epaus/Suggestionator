@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIColor {
-    
+    // making a test comment to see it reflected in the remote repo.
     static func intFromHexString(hexStr: String) -> UInt32 {
         var hexInt: UInt32 = 0
         // Create scanner
