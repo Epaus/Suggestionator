@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     var randomizerVC =  RandomizerViewController()
     var catalogVC = SuggestionCategoryTableViewController()
     var navController = UINavigationController()
+    
+    
+    var managedContext: NSManagedObjectContext!
    
     
     override func viewDidLoad() {

@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
    
-    
+    var managedContext: NSManagedObjectContext!
     lazy var randomizerView = RandomizerView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +37,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return SuggestionCategory().categories.count
+        return 4
     }
 
 }

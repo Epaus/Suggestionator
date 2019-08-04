@@ -7,22 +7,48 @@
 //
 
 import UIKit
+import CoreData
 
 class SuggestionCategoryTableViewController: UITableViewController {
     var names: [String] = []
+    var categories = [NSManagedObject]()
+    var currentCategory: SceneCategory?
+    var managedContext: NSManagedObjectContext!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let categoryName = "Location"
+        let categoryFetch: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
+        //categoryFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(SceneCategory.title), categoryName)
+        
+        do {
+            let results = try managedContext.fetch(categoryFetch)
+            if results.count > 0 {
+                // Fido found, use Fido
+                categories = results
+            } else {
+                // Fido not found, create Fido
+                currentCategory = SceneCategory(context: managedContext)
+                currentCategory?.title = categoryName
+                try managedContext.save()
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+        
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: "Cell")
         setupNavigationBar()
-        
-        
     }
     
     func setupNavigationBar() {
@@ -40,37 +66,45 @@ class SuggestionCategoryTableViewController: UITableViewController {
         }
     }
     
-    
-    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+       
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+       
+        return categories.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let category = categories[indexPath.row] as? SceneCategory
         let cell =
             tableView.dequeueReusableCell(withIdentifier: "Cell",
                                           for: indexPath)
-        cell.textLabel?.text = names[indexPath.row]
+        cell.textLabel?.text = category?.title
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category = categories[indexPath.row] as? SceneCategory
+        let vc = AskForsTableViewController()
+        vc.currentCategory = category
+        vc.managedContext = managedContext
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
     
-    /*
+    
+    
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
-     return true
+     return false
      }
-     */
+    
     
     /*
      // Override to support editing the table view.
@@ -106,17 +140,16 @@ class SuggestionCategoryTableViewController: UITableViewController {
                                       message: "Add a new category",
                                       preferredStyle: .alert)
         
-        let saveAction = UIAlertAction(title: "Save",
-                                       style: .default) {
-                                        [unowned self] action in
-                                        
-                                        guard let textField = alert.textFields?.first,
-                                            let nameToSave = textField.text else {
-                                                return
-                                        }
-                                        
-                                        self.names.append(nameToSave)
-                                        self.tableView.reloadData()
+        let saveAction = UIAlertAction(title: "Save", style: .default) {
+            [unowned self] action in
+            
+            guard let textField = alert.textFields?.first,
+                let nameToSave = textField.text else {
+                    return
+            }
+            
+            self.save(title: nameToSave)
+            self.tableView.reloadData()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -128,5 +161,36 @@ class SuggestionCategoryTableViewController: UITableViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
+    }
+    
+    func save(title: String) {
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // 1
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        // 2
+        let entity =
+            NSEntityDescription.entity(forEntityName: "SceneCategory",
+                                       in: managedContext)!
+        
+        let category = NSManagedObject(entity: entity,
+                                     insertInto: managedContext)
+        
+        // 3
+        category.setValue(title, forKeyPath: "title")
+        
+        // 4
+        do {
+            try managedContext.save()
+            categories.append(category)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
 }
