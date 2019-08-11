@@ -25,8 +25,6 @@ class SceneCategoryController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         updateCategories()
-       
-        
         setupNavigationBar()
         configureTableView()
         let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCategory(_:)))
@@ -73,50 +71,39 @@ class SceneCategoryController: UIViewController {
                 let nameToSave = textField.text else {
                     return
             }
-            
-            self.save(title: nameToSave)
+            self.add(newCategory: nameToSave)
             self.tableView.reloadData()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
                                          style: .cancel)
-        
         alert.addTextField()
-        
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
     }
     
-    func save(title: String) {
-        
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        // 1
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        // 2
-        let entity =
-            NSEntityDescription.entity(forEntityName: "SceneCategory",
-                                       in: managedContext)!
-        
-        let category = NSManagedObject(entity: entity,
-                                       insertInto: managedContext)
-        
-        // 3
-        category.setValue(title, forKeyPath: "title")
-        
-        // 4
+    func add(newCategory: String) {
+        let category = SceneCategory(context: managedContext)
+        category.title = newCategory
         do {
             try managedContext.save()
-            categories.append(category)
         } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            os_log("Save error: ", error.userInfo)
+        }
+        updateCategories()
+        tableView.reloadData()
+    }
+    
+    func delete(category: SceneCategory, indexPath: IndexPath) {
+        managedContext.delete(category)
+        do {
+            try managedContext.save()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+        } catch let error as NSError {
+            os_log("Saving error: ",error.userInfo)
         }
     }
 }
@@ -138,7 +125,6 @@ extension SceneCategoryController: UITableViewDelegate {
         vc.currentCategory = category
         vc.managedContext = managedContext
         navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
 extension SceneCategoryController : UITableViewDataSource {
@@ -167,8 +153,6 @@ extension SceneCategoryController : UITableViewDataSource {
             try managedContext.save()
             updateCategories()
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-            
         } catch let error as NSError {
             os_log("Deleting error:", error.userInfo)
         }

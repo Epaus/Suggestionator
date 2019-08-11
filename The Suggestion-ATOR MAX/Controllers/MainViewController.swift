@@ -73,6 +73,12 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         print("TAB BAR \(item.tag) SELECTED")
+        switch item.tag {
+        case 1:
+            catalogVC.managedContext = managedContext
+        default:
+            print("the spinner vc")
+        }
     }
 
 

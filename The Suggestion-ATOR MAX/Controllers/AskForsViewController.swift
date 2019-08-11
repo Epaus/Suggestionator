@@ -77,7 +77,6 @@ class AskForsController: UIViewController {
         let askFor = AskFor(context: managedContext)
         askFor.askFor = newAskFor
         
-        
         if let category = currentCategory,
             let askFors = category.askFors?.mutableCopy() as? NSMutableOrderedSet {
             askFors.add(askFor)
