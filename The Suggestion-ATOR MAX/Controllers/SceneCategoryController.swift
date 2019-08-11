@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import os.log
 
-class SceneCategoryTableViewController: UIViewController {
+class SceneCategoryController: UIViewController {
     var categories = [NSManagedObject]()
     var currentCategory: SceneCategory?
     var managedContext: NSManagedObjectContext!
@@ -20,20 +20,6 @@ class SceneCategoryTableViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationItem.title = "Categories"
     }
-    
-    func updateCategories() {
-        let categoryFetch: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
-        
-        do {
-            let results = try managedContext.fetch(categoryFetch)
-            if results.count > 0 {
-                categories = results
-            }
-        } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
-        }
-    }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +47,19 @@ class SceneCategoryTableViewController: UIViewController {
     }
     
     // MARK: - coredata stuff
+    func updateCategories() {
+        let categoryFetch: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
+        
+        do {
+            let results = try managedContext.fetch(categoryFetch)
+            if results.count > 0 {
+                categories = results
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
+    
     @objc func addCategory(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New Category",
@@ -121,7 +120,8 @@ class SceneCategoryTableViewController: UIViewController {
         }
     }
 }
-extension SceneCategoryTableViewController: UITableViewDelegate {
+extension SceneCategoryController: UITableViewDelegate {
+    // MARK: - UITableViewDelegate functions
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let category = categories[indexPath.row] as? SceneCategory
@@ -134,14 +134,14 @@ extension SceneCategoryTableViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let category = categories[indexPath.row] as? SceneCategory
-        let vc = AskForsTableViewController()
+        let vc = AskForsController()
         vc.currentCategory = category
         vc.managedContext = managedContext
         navigationController?.pushViewController(vc, animated: true)
         
     }
 }
-extension SceneCategoryTableViewController : UITableViewDataSource {
+extension SceneCategoryController : UITableViewDataSource {
     // MARK: - UITableViewDataSource functions
     
     func numberOfSections(in tableView: UITableView) -> Int {
