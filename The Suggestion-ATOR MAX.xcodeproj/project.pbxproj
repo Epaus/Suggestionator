@@ -46,8 +46,8 @@
 		CE27F15D22EE509900A5DD5B /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		CE27F15F22EE516900A5DD5B /* UIElementSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementSizes.swift; sourceTree = "<group>"; };
 		CE27F16122EE56D000A5DD5B /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
-		CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
-		CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SceneCategory+CoreDataClass.swift"; path = "../../SceneCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "SceneCategory+CoreDataProperties.swift"; path = "../../SceneCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE946A9E22FF67EB00EF027D /* AskFor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AskFor+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE946A9F22FF67EB00EF027D /* AskFor+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AskFor+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE946AA222FF701D00EF027D /* SuggestionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionController.swift; sourceTree = "<group>"; };
@@ -70,10 +70,6 @@
 		CE1CD05522EE1A7700BD4321 = {
 			isa = PBXGroup;
 			children = (
-				CE946A9E22FF67EB00EF027D /* AskFor+CoreDataClass.swift */,
-				CE946A9F22FF67EB00EF027D /* AskFor+CoreDataProperties.swift */,
-				CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */,
-				CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */,
 				CE1CD06022EE1A7700BD4321 /* The Suggestion-ATOR MAX */,
 				CE1CD05F22EE1A7700BD4321 /* Products */,
 			);
@@ -148,6 +144,10 @@
 		CE27F16322EE61A000A5DD5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CE946A9E22FF67EB00EF027D /* AskFor+CoreDataClass.swift */,
+				CE946A9F22FF67EB00EF027D /* AskFor+CoreDataProperties.swift */,
+				CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */,
+				CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

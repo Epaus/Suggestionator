@@ -25,7 +25,7 @@ class AskForsController: UIViewController {
         self.view.backgroundColor = .white
         configureTableView()
         setupNavigationBar()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addAskFor(_:)))
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addAskForButtonTapped(_:)))
         addButton.tintColor = .white
         navigationItem.rightBarButtonItem = addButton
     }
@@ -44,9 +44,7 @@ class AskForsController: UIViewController {
             ])
     }
     
-    // MARK: - CoreData functions
-    
-    @objc func addAskFor(_ sender: UIBarButtonItem) {
+    @objc func addAskForButtonTapped(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New AskFor",
                                       message: "Add a new askFor",
@@ -71,6 +69,8 @@ class AskForsController: UIViewController {
         
         present(alert, animated: true)
     }
+    
+    // MARK: - CoreData functions
     
     func add(newAskFor: String) {
         

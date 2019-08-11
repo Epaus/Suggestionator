@@ -27,7 +27,7 @@ class SceneCategoryController: UIViewController {
         updateCategories()
         setupNavigationBar()
         configureTableView()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCategory(_:)))
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCategoryButtonTapped(_:)))
         addButton.tintColor = .white
         navigationItem.rightBarButtonItem = addButton
     }
@@ -44,21 +44,7 @@ class SceneCategoryController: UIViewController {
             ])
     }
     
-    // MARK: - coredata stuff
-    func updateCategories() {
-        let categoryFetch: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
-        
-        do {
-            let results = try managedContext.fetch(categoryFetch)
-            if results.count > 0 {
-                categories = results
-            }
-        } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
-        }
-    }
-    
-    @objc func addCategory(_ sender: UIBarButtonItem) {
+    @objc func addCategoryButtonTapped(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New Category",
                                       message: "Add a new category",
@@ -82,6 +68,20 @@ class SceneCategoryController: UIViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true)
+    }
+    
+    // MARK: - coredata stuff
+    func updateCategories() {
+        let categoryFetch: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
+        
+        do {
+            let results = try managedContext.fetch(categoryFetch)
+            if results.count > 0 {
+                categories = results
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
     }
     
     func add(newCategory: String) {

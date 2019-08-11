@@ -26,7 +26,7 @@ class SuggestionController: UIViewController {
         self.view.backgroundColor = .white
         configureTableView()
         setupNavigationBar()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addSuggestion(_:)))
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addSuggestionButtonTapped(_:)))
         addButton.tintColor = .white
         navigationItem.rightBarButtonItem = addButton
     }
@@ -45,8 +45,7 @@ class SuggestionController: UIViewController {
             ])
     }
     
-    // MARK: - CoreData functions
-    @objc func addSuggestion(_ sender: UIBarButtonItem) {
+    @objc func addSuggestionButtonTapped(_ sender: UIBarButtonItem) {
         
         let alert = UIAlertController(title: "New Suggestion",
                                       message: "Add a new suggestion",
@@ -72,6 +71,8 @@ class SuggestionController: UIViewController {
         present(alert, animated: true)
     }
     
+    // MARK: - CoreData functions
+   
     func add(newSuggestion: String) {
         
         let suggestion = Suggestion(context: managedContext)
