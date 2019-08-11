@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="AskFor" representedClassName="AskFor" syncable="YES" codeGenerationType="class">
+    <entity name="AskFor" representedClassName="AskFor" syncable="YES">
         <attribute name="askFor" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="hasSuggestions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Suggestion" inverseName="ofAskFor" inverseEntity="Suggestion" syncable="YES"/>
-        <relationship name="isOfCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SceneCategory" inverseName="hasAskFors" inverseEntity="SceneCategory" syncable="YES"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SceneCategory" inverseName="askFors" inverseEntity="SceneCategory" syncable="YES"/>
+        <relationship name="suggestions" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Suggestion" inverseName="askFor" inverseEntity="Suggestion" syncable="YES"/>
     </entity>
     <entity name="SceneCategory" representedClassName="SceneCategory" syncable="YES">
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="hasAskFors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="AskFor" inverseName="isOfCategory" inverseEntity="AskFor" syncable="YES"/>
+        <relationship name="askFors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="AskFor" inverseName="category" inverseEntity="AskFor" syncable="YES"/>
     </entity>
     <entity name="Suggestion" representedClassName="Suggestion" syncable="YES" codeGenerationType="class">
         <attribute name="suggestion" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="ofAskFor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AskFor" inverseName="hasSuggestions" inverseEntity="AskFor" syncable="YES"/>
+        <relationship name="askFor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AskFor" inverseName="suggestions" inverseEntity="AskFor" syncable="YES"/>
     </entity>
     <elements>
         <element name="AskFor" positionX="-270.76953125" positionY="-163.6328125" width="128" height="90"/>
-        <element name="SceneCategory" positionX="-473.81640625" positionY="0.58203125" width="128" height="73"/>
+        <element name="SceneCategory" positionX="-473.81640625" positionY="0.58203125" width="128" height="75"/>
         <element name="Suggestion" positionX="-36" positionY="18" width="128" height="75"/>
     </elements>
 </model>

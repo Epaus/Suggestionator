@@ -1,49 +1,50 @@
 //
-//  AsForsTableViewController.swift
+//  SuggestionTableViewController.swift
 //  The Suggestion-ATOR MAX
 //
-//  Created by Estelle Paus on 8/4/19.
+//  Created by Estelle Paus on 8/10/19.
 //  Copyright © 2019 Paus Productions. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class AskForsTableViewController: UITableViewController {
+class SuggestionTableViewController: UITableViewController {
+
     var managedContext: NSManagedObjectContext!
-    var currentCategory: SceneCategory?
+    var currentAskFor: AskFor?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = "AskFors"
+        navigationItem.title = "Suggestions"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: "Cell")
         //setupNavigationBar()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addAskFor(_:)))
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addSuggestion(_:)))
         addButton.tintColor = .white
         navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc func addAskFor(_ sender: UIBarButtonItem) {
+    @objc func addSuggestion(_ sender: UIBarButtonItem) {
         
-        let alert = UIAlertController(title: "New AskFor",
-                                      message: "Add a new askFor",
+        let alert = UIAlertController(title: "New Suggestion",
+                                      message: "Add a new suggestion",
                                       preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: "Save", style: .default) {
             [unowned self] action in
             
             guard let textField = alert.textFields?.first,
-                let askForToSave = textField.text else { return }
+                let suggestionToSave = textField.text else { return }
             
-            self.add(newAskFor: askForToSave)
+            self.add(newSuggestion: suggestionToSave)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -57,16 +58,16 @@ class AskForsTableViewController: UITableViewController {
         present(alert, animated: true)
     }
     
-    func add(newAskFor: String) {
+    func add(newSuggestion: String) {
         
-        let askFor = AskFor(context: managedContext)
-        askFor.askFor = newAskFor
+        let suggestion = Suggestion(context: managedContext)
+        suggestion.suggestion = newSuggestion
         
         
-        if let category = currentCategory,
-            let askFors = category.askFors?.mutableCopy() as? NSMutableOrderedSet {
-            askFors.add(askFor)
-            category.askFors = askFors
+        if let askFor = currentAskFor,
+            let suggestions = askFor.suggestions?.mutableCopy() as? NSMutableOrderedSet {
+            suggestions.add(suggestion)
+            askFor.suggestions = suggestions
         }
         
         do {
@@ -82,29 +83,22 @@ class AskForsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+       
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCategory?.askFors?.count ?? 0
+        return currentAskFor?.suggestions?.count ?? 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        guard let askFor = currentCategory?.askFors?[indexPath.row] as? AskFor,
-            let askForTitle = askFor.askFor as String? else { return cell }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+            guard let suggestion = currentAskFor?.suggestions?[indexPath.row] as? Suggestion,
+                let suggestionText = suggestion.suggestion as String? else { return cell }
         
-        cell.textLabel?.text = askForTitle
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let askFor = currentCategory?.askFors?[indexPath.row] as? AskFor
-        let vc = SuggestionTableViewController()
-        vc.currentAskFor = askFor
-        vc.managedContext = managedContext
-        navigationController?.pushViewController(vc, animated: true)
+            cell.textLabel?.text = suggestionText
+            return cell
     }
     
     // datasource
@@ -113,41 +107,22 @@ class AskForsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let askForToRemove = currentCategory?.askFors?[indexPath.row] as? AskFor,
-            editingStyle == .delete else { return }
+        guard let suggestionToRemove = currentAskFor?.suggestions?[indexPath.row] as? Suggestion,
+            editingStyle == .delete else {
+                return
+        }
         
-        managedContext.delete(askForToRemove)
+        managedContext.delete(suggestionToRemove)
+        
         do {
             try managedContext.save()
-            tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.endUpdates()
             
         } catch let error as NSError {
             print("Saving error: \(error), description: \(error.userInfo)")
         }
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
 
     /*
     // Override to support rearranging the table view.

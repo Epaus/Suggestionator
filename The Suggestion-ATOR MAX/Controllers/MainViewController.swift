@@ -11,7 +11,7 @@ import CoreData
 
 class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     var randomizerVC =  RandomizerViewController()
-    var catalogVC = SuggestionCategoryTableViewController()
+    var catalogVC = SceneCategoryTableViewController()
     var navController = UINavigationController()
     
     

@@ -1,5 +1,5 @@
 //
-//  SceneCategory+CoreDataClass.swift
+//  AskFor+CoreDataClass.swift
 //  The Suggestion-ATOR MAX
 //
 //  Created by Estelle Paus on 8/10/19.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(SceneCategory)
-public class SceneCategory: NSManagedObject {
+@objc(AskFor)
+public class AskFor: NSManagedObject {
 
 }
