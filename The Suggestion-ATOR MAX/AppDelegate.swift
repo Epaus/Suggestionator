@@ -30,9 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController as? MainViewController else {
                 return true
         }
-        
+        let sceneCategoryModel = SceneCategoryModel.init(managedContext: coreDataStack.managedContext)
         vc.managedContext = coreDataStack.managedContext
-        vc.catalogVC.managedContext = coreDataStack.managedContext
+        vc.catalogVC.model = sceneCategoryModel
         vc.randomizerVC.managedContext = coreDataStack.managedContext
         return true
     }

@@ -11,14 +11,14 @@ import CoreData
 import os.log
 
 class SuggestionController: UIViewController {
-
-    var managedContext: NSManagedObjectContext!
-    var currentAskFor: AskFor?
+    var model: SuggestionModel? = nil
+   
     lazy var tableView: UITableView = UIElementsManager.createTableView(cellClass: UITableViewCell.self, reuseID: "Cell")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = currentAskFor?.askFor
+        guard let model = self.model else { return }
+        navigationItem.title = model.currentAskFor?.askFor
     }
     
     override func viewDidLoad() {
@@ -46,6 +46,7 @@ class SuggestionController: UIViewController {
     }
     
     @objc func addSuggestionButtonTapped(_ sender: UIBarButtonItem) {
+        guard let model = self.model else { return }
         
         let alert = UIAlertController(title: "New Suggestion",
                                       message: "Add a new suggestion",
@@ -57,7 +58,12 @@ class SuggestionController: UIViewController {
             guard let textField = alert.textFields?.first,
                 let suggestionToSave = textField.text else { return }
             
-            self.add(newSuggestion: suggestionToSave)
+            model.add(newSuggestion: suggestionToSave, completion: { error in
+                if let error = error {
+                    os_log("error = ",error.localizedDescription)
+                }
+                self.tableView.reloadData()
+            })
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -71,41 +77,7 @@ class SuggestionController: UIViewController {
         present(alert, animated: true)
     }
     
-    // MARK: - CoreData functions
    
-    func add(newSuggestion: String) {
-        
-        let suggestion = Suggestion(context: managedContext)
-        suggestion.suggestion = newSuggestion
-        
-        
-        if let askFor = currentAskFor,
-            let suggestions = askFor.suggestions?.mutableCopy() as? NSMutableOrderedSet {
-            suggestions.add(suggestion)
-            askFor.suggestions = suggestions
-        }
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Save error: \(error), description: \(error.userInfo)")
-        }
-        
-        tableView.reloadData()
-    }
-    
-    func delete(suggestion: Suggestion, indexPath: IndexPath) {
-        
-        managedContext.delete(suggestion)
-        
-        do {
-            try managedContext.save()
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-        } catch let error as NSError {
-            os_log("Saving error: ",error.userInfo)
-        }
-    }
 }
 
 extension SuggestionController: UITableViewDataSource {
@@ -116,7 +88,8 @@ extension SuggestionController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentAskFor?.suggestions?.count ?? 0
+        guard let model = self.model else { return 0 }
+        return model.currentAskFor?.suggestions?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -124,12 +97,18 @@ extension SuggestionController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let suggestionToRemove = currentAskFor?.suggestions?[indexPath.row] as? Suggestion,
+        guard let model = self.model,
+         let suggestionToRemove = model.currentAskFor?.suggestions?[indexPath.row] as? Suggestion,
             editingStyle == .delete else {
                 return
         }
         
-        delete(suggestion: suggestionToRemove, indexPath: indexPath)
+        model.delete(suggestion: suggestionToRemove, indexPath: indexPath, completion: { error in
+            if let error = error {
+                os_log("error = ",error.localizedDescription)
+            }
+            self.tableView.reloadData()
+        })
     }
 }
 extension SuggestionController: UITableViewDelegate {
@@ -137,7 +116,8 @@ extension SuggestionController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        guard let suggestion = currentAskFor?.suggestions?[indexPath.row] as? Suggestion,
+        guard let model = self.model,
+         let suggestion = model.currentAskFor?.suggestions?[indexPath.row] as? Suggestion,
             let suggestionText = suggestion.suggestion as String? else { return cell }
         
         cell.textLabel?.text = suggestionText

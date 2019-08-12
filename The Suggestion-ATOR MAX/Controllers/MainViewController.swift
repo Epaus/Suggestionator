@@ -75,7 +75,8 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
         print("TAB BAR \(item.tag) SELECTED")
         switch item.tag {
         case 1:
-            catalogVC.managedContext = managedContext
+            print("the catalog vc")
+            //catalogVC.managedContext = managedContext
         default:
             print("the spinner vc")
         }

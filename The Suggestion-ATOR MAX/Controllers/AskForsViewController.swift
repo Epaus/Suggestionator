@@ -11,13 +11,14 @@ import CoreData
 import os.log
 
 class AskForsController: UIViewController {
-    var managedContext: NSManagedObjectContext!
-    var currentCategory: SceneCategory?
+    var model: AskForModel? = nil
+    
     lazy var tableView: UITableView = UIElementsManager.createTableView(cellClass: UITableViewCell.self, reuseID: "Cell")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = currentCategory?.title
+        guard let model = self.model else { return }
+        navigationItem.title = model.currentCategory?.title
     }
     
     override func viewDidLoad() {
@@ -45,6 +46,7 @@ class AskForsController: UIViewController {
     }
     
     @objc func addAskForButtonTapped(_ sender: UIBarButtonItem) {
+        guard let model = self.model else { return }
         
         let alert = UIAlertController(title: "New AskFor",
                                       message: "Add a new askFor",
@@ -56,7 +58,13 @@ class AskForsController: UIViewController {
             guard let textField = alert.textFields?.first,
                 let askForToSave = textField.text else { return }
             
-            self.add(newAskFor: askForToSave)
+            model.add(newAskFor: askForToSave, completion: { error in
+                if let error = error {
+                    os_log("error = ",error.localizedDescription)
+                }
+                self.tableView.reloadData()
+            })
+
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -70,40 +78,7 @@ class AskForsController: UIViewController {
         present(alert, animated: true)
     }
     
-    // MARK: - CoreData functions
-    
-    func add(newAskFor: String) {
-        
-        let askFor = AskFor(context: managedContext)
-        askFor.askFor = newAskFor
-        
-        if let category = currentCategory,
-            let askFors = category.askFors?.mutableCopy() as? NSMutableOrderedSet {
-            askFors.add(askFor)
-            category.askFors = askFors
-        }
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Save error: \(error), description: \(error.userInfo)")
-        }
-        
-        tableView.reloadData()
-    }
-    
-    func delete(askFor: AskFor, indexPath: IndexPath) {
-        
-        managedContext.delete(askFor)
-        
-        do {
-            try managedContext.save()
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-        } catch let error as NSError {
-            os_log("Saving error: ",error.userInfo)
-        }
-    }
+   
 }
 
 extension AskForsController : UITableViewDataSource {
@@ -113,7 +88,8 @@ extension AskForsController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCategory?.askFors?.count ?? 0
+        guard let model = self.model else { return 0 }
+        return model.currentCategory?.askFors?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -121,10 +97,16 @@ extension AskForsController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let askForToRemove = currentCategory?.askFors?[indexPath.row] as? AskFor,
+        guard let model = self.model,
+         let askForToRemove = model.currentCategory?.askFors?[indexPath.row] as? AskFor,
             editingStyle == .delete else { return }
         
-       delete(askFor: askForToRemove, indexPath: indexPath)
+        model.delete(askFor: askForToRemove, indexPath: indexPath, completion: { error in
+            if let error = error {
+                os_log("error = ",error.localizedDescription)
+            }
+            self.tableView.reloadData()
+        })
     }
 }
 
@@ -133,18 +115,23 @@ extension AskForsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        guard let askFor = currentCategory?.askFors?[indexPath.row] as? AskFor,
+        guard let model = self.model,
+         let askFor = model.currentCategory?.askFors?[indexPath.row] as? AskFor,
             let askForTitle = askFor.askFor as String? else { return cell }
-        
+        cell.selectionStyle = .none
         cell.textLabel?.text = askForTitle
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let askFor = currentCategory?.askFors?[indexPath.row] as? AskFor
+        guard let model = self.model else { return }
+        let askFor = model.currentCategory?.askFors?[indexPath.row] as? AskFor
+        let suggestionModel = SuggestionModel.init(managedContext: model.managedContext)
+        suggestionModel.currentAskFor = askFor
+        suggestionModel.managedContext = model.managedContext
         let vc = SuggestionController()
-        vc.currentAskFor = askFor
-        vc.managedContext = managedContext
+        vc.model = suggestionModel
+       
         navigationController?.pushViewController(vc, animated: true)
     }
     

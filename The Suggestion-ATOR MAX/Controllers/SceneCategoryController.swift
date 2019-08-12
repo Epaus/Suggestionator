@@ -11,9 +11,9 @@ import CoreData
 import os.log
 
 class SceneCategoryController: UIViewController {
-    var categories = [NSManagedObject]()
     var currentCategory: SceneCategory?
-    var managedContext: NSManagedObjectContext!
+    var model: SceneCategoryModel? = nil
+    
     lazy var tableView: UITableView = UIElementsManager.createTableView(cellClass: UITableViewCell.self, reuseID: "Cell")
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,7 +24,6 @@ class SceneCategoryController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        updateCategories()
         setupNavigationBar()
         configureTableView()
         let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCategoryButtonTapped(_:)))
@@ -57,7 +56,13 @@ class SceneCategoryController: UIViewController {
                 let nameToSave = textField.text else {
                     return
             }
-            self.add(newCategory: nameToSave)
+            guard let vm = self.model else { return }
+            vm.add(newCategory: nameToSave, completion: { error in
+                if let error = error {
+                    os_log("error = ",error.localizedDescription)
+                }
+                vm.updateCategories()
+            })
             self.tableView.reloadData()
         }
         
@@ -70,60 +75,30 @@ class SceneCategoryController: UIViewController {
         present(alert, animated: true)
     }
     
-    // MARK: - coredata stuff
-    func updateCategories() {
-        let categoryFetch: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
-        
-        do {
-            let results = try managedContext.fetch(categoryFetch)
-            if results.count > 0 {
-                categories = results
-            }
-        } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
-        }
-    }
-    
-    func add(newCategory: String) {
-        let category = SceneCategory(context: managedContext)
-        category.title = newCategory
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            os_log("Save error: ", error.userInfo)
-        }
-        updateCategories()
-        tableView.reloadData()
-    }
-    
-    func delete(category: SceneCategory, indexPath: IndexPath) {
-        managedContext.delete(category)
-        do {
-            try managedContext.save()
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-        } catch let error as NSError {
-            os_log("Saving error: ",error.userInfo)
-        }
-    }
+
 }
 extension SceneCategoryController: UITableViewDelegate {
     // MARK: - UITableViewDelegate functions
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let category = categories[indexPath.row] as? SceneCategory
+        guard let model = self.model else { return UITableViewCell() }
+        let category = model.categories[indexPath.row] as? SceneCategory
         let cell =
             tableView.dequeueReusableCell(withIdentifier: "Cell",
                                           for: indexPath)
+        cell.selectionStyle = .none
         cell.textLabel?.text = category?.title
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category = categories[indexPath.row] as? SceneCategory
+        guard let model = self.model else { return  }
+        let category = model.categories[indexPath.row] as? SceneCategory
+        let askForModel = AskForModel.init(managedContext: model.managedContext)
+        askForModel.currentCategory = category
         let vc = AskForsController()
-        vc.currentCategory = category
-        vc.managedContext = managedContext
+        vc.model = askForModel
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -136,8 +111,8 @@ extension SceneCategoryController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return categories.count
+        guard let model = self.model else { return 0 }
+        return model.categories.count
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -145,13 +120,14 @@ extension SceneCategoryController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let categoryToRemove = categories[indexPath.row] as? SceneCategory,
+        guard let model = self.model,
+            let categoryToRemove = model.categories[indexPath.row] as? SceneCategory,
             editingStyle == .delete else { return }
         
-        managedContext.delete(categoryToRemove)
+        model.managedContext.delete(categoryToRemove)
         do {
-            try managedContext.save()
-            updateCategories()
+            try model.managedContext.save()
+            model.updateCategories()
             tableView.deleteRows(at: [indexPath], with: .automatic)
         } catch let error as NSError {
             os_log("Deleting error:", error.userInfo)

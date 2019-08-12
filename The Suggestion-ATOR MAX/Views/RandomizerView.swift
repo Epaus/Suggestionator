@@ -9,9 +9,9 @@
 import UIKit
 
 class RandomizerView : UIView {
-    lazy var pickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.3, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0)
-    var categoryPicker =  UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .white)
-    lazy var askForPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .white)
+    //lazy var pickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.3, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0)
+    var categoryPicker =  UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .green)
+    //lazy var askForPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .white)
 //    lazy var askForLabelView = UIView()
 //    lazy var suggestionLabelView = UIView()
 //    lazy var suggestionPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .clear, tintColor: .gray, textColor: .black)
@@ -27,41 +27,44 @@ class RandomizerView : UIView {
     }
     
     func setupView() {
-        NSLayoutConstraint.activate([
-            categoryPicker.widthAnchor.constraint(equalToConstant: 100),
-            categoryPicker.heightAnchor.constraint(equalToConstant: 100)
-            ]
-        )
-        NSLayoutConstraint.activate([
-            askForPicker.widthAnchor.constraint(equalToConstant: 100),
-            askForPicker.heightAnchor.constraint(equalToConstant: 100)
-            ]
-        )
-        pickerStackView.addArrangedSubview(categoryPicker)
-        pickerStackView.addArrangedSubview(askForPicker)
-        addSubview(pickerStackView)
+//        pickerStackView.addArrangedSubview(categoryPicker)
+//        pickerStackView.addArrangedSubview(askForPicker)
+//        addSubview(pickerStackView)
+      
+      self.addSubview(categoryPicker)
        
-//        addSubview(askForLabelView)
-//        addSubview(suggestionLabelView)
-//        addSubview(suggestionPicker)
+
         setConstraints()
     }
     func setAutoResizingMask() {
-        pickerStackView.translatesAutoresizingMaskIntoConstraints = false
+        //pickerStackView.translatesAutoresizingMaskIntoConstraints = false
         categoryPicker.translatesAutoresizingMaskIntoConstraints = false
-        askForPicker.translatesAutoresizingMaskIntoConstraints = false
-//        askForLabelView.translatesAutoresizingMaskIntoConstraints = false
-//        suggestionLabelView.translatesAutoresizingMaskIntoConstraints = false
-//        suggestionPicker.translatesAutoresizingMaskIntoConstraints = false
+        //askForPicker.translatesAutoresizingMaskIntoConstraints = false
+
     }
     
     func setConstraints() {
         setAutoResizingMask()
         NSLayoutConstraint.activate([
-            pickerStackView.topAnchor.constraint(equalTo: topAnchor),
-            pickerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            pickerStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
+            categoryPicker.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            categoryPicker.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            categoryPicker.trailingAnchor.constraint(equalTo: self.centerXAnchor),
+            categoryPicker.bottomAnchor.constraint(equalTo: self.centerYAnchor, constant: 60)
+            ]
+        )
+//        NSLayoutConstraint.activate([
+//            askForPicker.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+//            askForPicker.leadingAnchor.constraint(equalTo: self.centerXAnchor),
+//            askForPicker.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+//            askForPicker.bottomAnchor.constraint(equalTo: self.centerYAnchor, constant: 60)
+//            ]
+//        )
+//        NSLayoutConstraint.activate([
+//            pickerStackView.topAnchor.constraint(equalTo: topAnchor),
+//            pickerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+//            pickerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            pickerStackView.bottomAnchor.constraint(equalTo: centerYAnchor, constant: 60)
+//            ])
     }
 
 }
