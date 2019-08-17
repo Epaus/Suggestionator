@@ -14,6 +14,7 @@ class SceneCategoryModel {
     
     var managedContext: NSManagedObjectContext!
     var categories = [NSManagedObject]()
+    var currentCategory: SceneCategory?
     
     init(managedContext: NSManagedObjectContext) {
         self.managedContext = managedContext

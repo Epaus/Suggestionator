@@ -15,6 +15,7 @@ class AskForModel {
     var managedContext: NSManagedObjectContext!
     var currentCategory: SceneCategory?
     var askFors = [NSManagedObject]()
+    var currentAskFor: AskFor?
     
     init(managedContext: NSManagedObjectContext) {
         self.managedContext = managedContext

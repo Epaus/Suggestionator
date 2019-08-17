@@ -12,8 +12,7 @@ import CoreData
 class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
    
     var model: RandomizerViewModel? = nil
-    var currentCategory: SceneCategory?
-    var currentAskFor: AskFor?
+   
     
     lazy var pickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.3, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0)
     var categoryPicker =  UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
@@ -41,7 +40,10 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             pickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
             ])
         
-        
+        categoryPicker.selectRow(0, inComponent: 0, animated: false)
+        categoryPicker.reloadAllComponents()
+        askForPicker.selectRow(0, inComponent: 0, animated: false)
+        askForPicker.reloadAllComponents()
         // Do any additional setup after loading the view.
     }
     
@@ -66,8 +68,8 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             title = category.title
             print(title)
         case askForPicker:
-            guard let model = self.model?.askForModel,
-                let askFor = model.askFors[row] as? AskFor else { return "" }
+            guard let model = self.model?.categoryModel,
+                let askFor = model.currentCategory?.askFors?[row] as? AskFor else { return "" }
             title = askFor.askFor
             print(title)
         default:
@@ -81,21 +83,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         case categoryPicker:
             guard let rModel = self.model,
              let categoryModel = rModel.categoryModel else { return }
-            currentCategory = categoryModel.categories[row] as? SceneCategory
-            guard let askForModel = rModel.askForModel else { return }
-            // the category has askFors - this is what I need
-            askForModel.currentCategory = currentCategory
-            askForModel.updateAskFors()
+            let currentCategory = categoryModel.categories[row] as? SceneCategory
+            categoryModel.currentCategory = currentCategory
             askForPicker.selectRow(0, inComponent: 0, animated: true)
             askForPicker.reloadAllComponents()
             
             
         default:
             guard let askForModel = self.model?.askForModel else { return }
-            askForModel.currentCategory = self.currentCategory
-            currentAskFor = askForModel.askFors[row] as? AskFor
-            askForModel.updateAskFors()
-            
+            //askForModel.currentCategory = self.currentCategory
+            let currentAskFor = askForModel.askFors[row] as? AskFor
         }
         pickerView.reloadAllComponents()
        
