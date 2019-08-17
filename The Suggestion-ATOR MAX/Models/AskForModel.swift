@@ -18,10 +18,23 @@ class AskForModel {
     
     init(managedContext: NSManagedObjectContext) {
         self.managedContext = managedContext
-
+        self.updateAskFors()
     }
     
     // MARK: - CoreData functions
+    
+    func updateAskFors() {
+        let askForFetch: NSFetchRequest<AskFor> = AskFor.fetchRequest()
+        
+        do {
+            let results = try managedContext.fetch(askForFetch)
+            if results.count > 0 {
+                askFors = results
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
     
     func add(newAskFor: String, completion:((Error?) -> Void)? = nil) {
         

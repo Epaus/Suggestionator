@@ -31,9 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
         }
         let sceneCategoryModel = SceneCategoryModel.init(managedContext: coreDataStack.managedContext)
-        vc.managedContext = coreDataStack.managedContext
+        let askForModel = AskForModel.init(managedContext: coreDataStack.managedContext)
+        let suggestionModel = SuggestionModel.init(managedContext: coreDataStack.managedContext)
+        let randomizerViewModel = RandomizerViewModel.init(categoryModel: sceneCategoryModel, askForModel: askForModel, suggestionModel: suggestionModel)
+        
         vc.catalogVC.model = sceneCategoryModel
-        vc.randomizerVC.managedContext = coreDataStack.managedContext
+        vc.randomizerVC.model = randomizerViewModel
         return true
     }
 

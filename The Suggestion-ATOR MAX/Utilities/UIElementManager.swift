@@ -291,7 +291,7 @@ class UIElementsManager {
         let sView = UIStackView()
         sView.frame = CGRect(x: 0, y:0, width: width, height: height)
         sView.axis = axis
-        sView.distribution = distribution // .equalSpacing
+        sView.distribution =  .equalSpacing
         sView.alignment = alignment //UIStackView.Alignment.center
         sView.spacing = spacing
         return sView

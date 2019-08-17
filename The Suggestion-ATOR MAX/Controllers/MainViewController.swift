@@ -15,7 +15,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     var navController = UINavigationController()
     
     
-    var managedContext: NSManagedObjectContext!
+    //var managedContext: NSManagedObjectContext!
    
     
     override func viewDidLoad() {
