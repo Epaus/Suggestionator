@@ -13,6 +13,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     var randomizerVC =  RandomizerViewController()
     var catalogVC = SceneCategoryController()
     var navController = UINavigationController()
+   
     
     
     //var managedContext: NSManagedObjectContext!
@@ -22,6 +23,10 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
         super.viewDidLoad()
         setupTabBar()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillLayoutSubviews() {
+        self.tabBar.itemPositioning = .fill
     }
     
     func setupTabBar() {

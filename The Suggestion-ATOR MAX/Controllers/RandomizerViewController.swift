@@ -14,13 +14,18 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var model: RandomizerViewModel? = nil
    
     
-    lazy var pickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.3, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0)
+    lazy var pickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.3, axis: .horizontal, distribution: .equalSpacing, alignment: .bottom, spacing: 0)
     var categoryPicker =  UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
     var askForPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        self.view.backgroundColor = .white
+        self.view.addSubview(pickerStackView)
         pickerStackView.addArrangedSubview(categoryPicker)
         pickerStackView.addArrangedSubview(askForPicker)
         
@@ -29,25 +34,31 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         categoryPicker.delegate = self
         askForPicker.dataSource = self
         askForPicker.delegate = self
-        view.addSubview(pickerStackView)
+      
         
         NSLayoutConstraint.activate([
-            categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth/2),
-            askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth/2),
-            pickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            pickerStackView.bottomAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -20),
+            categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4),
+            askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.6),
+            pickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
             pickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            pickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-            ])
+            pickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+        ])
         
-        categoryPicker.selectRow(0, inComponent: 0, animated: false)
+       
+        
         categoryPicker.reloadAllComponents()
-        askForPicker.selectRow(0, inComponent: 0, animated: false)
         askForPicker.reloadAllComponents()
         // Do any additional setup after loading the view.
     }
     
-
+    func initializeModels() {
+        guard let rModel = self.model,
+            let categoryModel = rModel.categoryModel,
+            let askForModel = rModel.askForModel else { return }
+        categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
+        askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
+        askForModel.updateAskFors()
+    }
     
     // Mark: - PickerView delegate and datasource functions
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -55,8 +66,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        guard let model = self.model?.categoryModel else { return 0 }
-        return model.categories.count
+//        guard let model = self.model?.categoryModel else { return 0 }
+//        return model.categories.count
+        switch pickerView {
+        case categoryPicker:
+            guard let model = self.model?.categoryModel else { return 0 }
+            return model.categories.count
+        default:
+            guard let model = self.model?.categoryModel else { return 0 }
+            return model.currentCategory?.askFors?.count ?? 0
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

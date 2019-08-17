@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         vc.catalogVC.model = sceneCategoryModel
         vc.randomizerVC.model = randomizerViewModel
+        vc.randomizerVC.initializeModels()
         return true
     }
 
