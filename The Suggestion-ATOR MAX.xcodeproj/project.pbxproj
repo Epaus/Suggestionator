@@ -21,6 +21,7 @@
 		CE27F16022EE516900A5DD5B /* UIElementSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE27F15F22EE516900A5DD5B /* UIElementSizes.swift */; };
 		CE27F16222EE56D000A5DD5B /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE27F16122EE56D000A5DD5B /* Constraints.swift */; };
 		CE3C3BCD2301005500874AB3 /* RandomizerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C3BCC2301005500874AB3 /* RandomizerViewModel.swift */; };
+		CE5B897F23086B780092DC15 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5B897E23086B780092DC15 /* UIView.swift */; };
 		CE946A9C22FF678300EF027D /* SceneCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */; };
 		CE946A9D22FF678300EF027D /* SceneCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */; };
 		CE946AA022FF67EB00EF027D /* AskFor+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946A9E22FF67EB00EF027D /* AskFor+CoreDataClass.swift */; };
@@ -51,6 +52,7 @@
 		CE27F15F22EE516900A5DD5B /* UIElementSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementSizes.swift; sourceTree = "<group>"; };
 		CE27F16122EE56D000A5DD5B /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		CE3C3BCC2301005500874AB3 /* RandomizerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomizerViewModel.swift; sourceTree = "<group>"; };
+		CE5B897E23086B780092DC15 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		CE946A9E22FF67EB00EF027D /* AskFor+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AskFor+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				CE1CD07722EE39AD00BD4321 /* UIColor.swift */,
 				CE27F15D22EE509900A5DD5B /* UIFont.swift */,
 				CE946AA622FF951300EF027D /* UIViewController.swift */,
+				CE5B897E23086B780092DC15 /* UIView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				CE946A9C22FF678300EF027D /* SceneCategory+CoreDataClass.swift in Sources */,
 				CE946AA122FF67EB00EF027D /* AskFor+CoreDataProperties.swift in Sources */,
 				CE946AA722FF951300EF027D /* UIViewController.swift in Sources */,
+				CE5B897F23086B780092DC15 /* UIView.swift in Sources */,
 				CE946AA922FF9EEA00EF027D /* AskForsViewController.swift in Sources */,
 				CE27F15E22EE509900A5DD5B /* UIFont.swift in Sources */,
 				CEA1834B22F68E570040B96F /* CoreDataManager.swift in Sources */,

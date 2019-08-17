@@ -33,7 +33,7 @@ class UIElementsManager {
                                 keyboardType: UIKeyboardType = .default,
                                 contentVerticalAlignment: UIControl.ContentVerticalAlignment = .center,
                                 textAlignment: NSTextAlignment = .left,
-                                textColor: UIColor = .medicalCityBlue,
+                                textColor: UIColor = .black,
                                 font: UIFont = .generalTextFont,
                                 returnKeyType: UIReturnKeyType = .done,
                                 isSecureTextEntry: Bool = false,
@@ -68,7 +68,7 @@ class UIElementsManager {
         return textField
     }
     
-    static func createButton(text: String, font: UIFont = .generalTextFont, titleColor: UIColor = .medicalCityBlue, backgroundColor: UIColor = .clear, borderWidth: CGFloat = 0, borderColor: UIColor = .clear, cornerRadius: CGFloat = 5) -> UIButton {
+    static func createButton(text: String, font: UIFont = .generalTextFont, titleColor: UIColor = .white, backgroundColor: UIColor = .clear, borderWidth: CGFloat = 0, borderColor: UIColor = .clear, cornerRadius: CGFloat = 5) -> UIButton {
         
         let button = UIButton()
         button.setTitle(text, for: .normal)
@@ -125,7 +125,7 @@ class UIElementsManager {
         return label
     }
     
-    static func createTextView(text: String, font: UIFont = .generalTextFont, textColor: UIColor = .medicalCityBlue, textAlignment: NSTextAlignment = .natural, backgroundColor: UIColor = .clear, cornerRadius: CGFloat = 5) -> UITextView {
+    static func createTextView(text: String, font: UIFont = .generalTextFont, textColor: UIColor = .black, textAlignment: NSTextAlignment = .natural, backgroundColor: UIColor = .clear, cornerRadius: CGFloat = 5) -> UITextView {
         
         let textView = UITextView()
         textView.text = text
@@ -228,7 +228,7 @@ class UIElementsManager {
     }
     
     
-    static func createColoredImage(color: UIColor = .medicalCityBlue, size: CGSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)) -> UIImage {
+    static func createColoredImage(color: UIColor = .white, size: CGSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)) -> UIImage {
         return UIGraphicsImageRenderer(size: size).image { rendererContext in
             color.setFill()
             rendererContext.fill(CGRect(origin: .zero, size: size))
@@ -261,6 +261,7 @@ class UIElementsManager {
         datePicker.tintColor = tintColor
         datePicker.setValue(textColor, forKey: "textColor")
         datePicker.datePickerMode = .time
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
         //       let startDate = Date()
         //        datePicker.maximumDate = startDate
         //        datePicker.minimumDate = startDate.addingTimeInterval(-oneDay)
@@ -282,18 +283,20 @@ class UIElementsManager {
         pickerView.layer.borderColor = borderColor.cgColor
         pickerView.tintColor = tintColor
         pickerView.setValue(textColor, forKey: "textColor")
-        
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
         return pickerView
         
     }
     
-    static func createUIStackView(width: CGFloat, height: CGFloat, axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, alignment: UIStackView.Alignment, spacing: CGFloat ) -> UIStackView {
+    static func createUIStackView(width: CGFloat, height: CGFloat, axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, alignment: UIStackView.Alignment, spacing: CGFloat, backgroundColor: UIColor ) -> UIStackView {
         let sView = UIStackView()
         sView.frame = CGRect(x: 0, y:0, width: width, height: height)
         sView.axis = axis
         sView.distribution =  .equalSpacing
         sView.alignment = alignment //UIStackView.Alignment.center
         sView.spacing = spacing
+        sView.backgroundColor = backgroundColor
+        sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
     }
 }

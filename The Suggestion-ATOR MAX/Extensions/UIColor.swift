@@ -37,8 +37,6 @@ extension UIColor {
     static let backgroundBlue: UIColor = .hexToColor(hexString: "#007AFF")
     static let softGray: UIColor = .hexToColor(hexString: "#8E8E93")
     static let cellGray: UIColor = .hexToColor(hexString: "#FFFFFF")
-    static let medicalCityBlue: UIColor = .hexToColor(hexString: "#0C233F")
-    static let medicalCityRed: UIColor = .hexToColor(hexString: "#CF0A2C")
     static let backgroundGray: UIColor = .hexToColor(hexString: "#D8D8D6")
     static let collectionViewCellBorderGray: UIColor = .hexToColor(hexString: "#979797")
     static let shadowBlack: UIColor = .hexToColor(hexString: "#000000", alpha: 0.5)
