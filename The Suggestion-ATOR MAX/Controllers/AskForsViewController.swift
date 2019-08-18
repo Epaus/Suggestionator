@@ -24,11 +24,9 @@ class AskForsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        configureAddButton()
         configureTableView()
         setupNavigationBar()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addAskForButtonTapped(_:)))
-        addButton.tintColor = .white
-        navigationItem.rightBarButtonItem = addButton
     }
     
     func configureTableView() {
@@ -44,6 +42,13 @@ class AskForsController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
             ])
     }
+    
+    func configureAddButton() {
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addAskForButtonTapped(_:)))
+        addButton.tintColor = .pink
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
     
     @objc func addAskForButtonTapped(_ sender: UIBarButtonItem) {
         guard let model = self.model else { return }

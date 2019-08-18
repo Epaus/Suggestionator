@@ -24,11 +24,9 @@ class SuggestionController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        configureAddButton()
         configureTableView()
         setupNavigationBar()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addSuggestionButtonTapped(_:)))
-        addButton.tintColor = .white
-        navigationItem.rightBarButtonItem = addButton
     }
     
     func configureTableView() {
@@ -43,6 +41,12 @@ class SuggestionController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
             ])
+    }
+    
+    func configureAddButton() {
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addSuggestionButtonTapped(_:)))
+        addButton.tintColor = .pink
+        navigationItem.rightBarButtonItem = addButton
     }
     
     @objc func addSuggestionButtonTapped(_ sender: UIBarButtonItem) {
