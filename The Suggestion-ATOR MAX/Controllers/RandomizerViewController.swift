@@ -18,9 +18,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var model: RandomizerViewModel? = nil
    
     
-    private lazy var pickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.25, axis: .horizontal, distribution: .equalSpacing, alignment: .bottom, spacing: 0, backgroundColor: .backgroundPink)
+    private lazy var topPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.25, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0, backgroundColor: .backgroundPink)
     private var categoryPicker =  UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
     private var askForPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
+    
+    private lazy var bottomPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.25, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0, backgroundColor: .backgroundPink)
+    private lazy var suggestionPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
     
     private lazy var pinkBackgroundView: UIView = {
         let view = UIView()
@@ -28,6 +31,13 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         view.layer.cornerRadius = 0
         return view
     }()
+    private lazy var blueBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundBlue
+        view.layer.cornerRadius = 0
+        return view
+    }()
+    
     
     let askForLabel = UIElementsManager.createLabel(text: "Spin for a random AskFor", font: .boldSystemFont(ofSize: 22), textColor: .pink, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
     let suggestionLabel = UIElementsManager.createLabel(text: "Spin for a random Suggestion", font: .boldSystemFont(ofSize: 22), textColor: .backgroundBlue, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
@@ -46,36 +56,43 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         self.view.backgroundColor = .white
        
-        self.view.addSubview(pickerStackView)
+        self.view.addSubview(topPickerStackView)
         self.view.addSubview(labelView)
         configureLabelView()
-        pickerStackView.addArrangedSubview(categoryPicker)
-        pickerStackView.addArrangedSubview(askForPicker)
-        pinBackground(pinkBackgroundView, to: pickerStackView)
+        topPickerStackView.addArrangedSubview(categoryPicker)
+        topPickerStackView.addArrangedSubview(askForPicker)
+        pinBackground(pinkBackgroundView, to: topPickerStackView)
         
+        self.view.addSubview(bottomPickerStackView)
+        bottomPickerStackView.addArrangedSubview(suggestionPicker)
+        pinBackground(blueBackgroundView, to: bottomPickerStackView)
         
         categoryPicker.dataSource = self
         categoryPicker.delegate = self
         askForPicker.dataSource = self
         askForPicker.delegate = self
+        suggestionPicker.dataSource = self
+        suggestionPicker.delegate = self
       
-        
         NSLayoutConstraint.activate([
             categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4),
             askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.6),
-            pickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
-            pickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            pickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            labelView.topAnchor.constraint(equalTo: pickerStackView.bottomAnchor),
+            topPickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
+            topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            topPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            labelView.topAnchor.constraint(equalTo: topPickerStackView.bottomAnchor),
             labelView.heightAnchor.constraint(equalToConstant: UIElementSizes.windowHeight * 0.25),
             labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+            labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bottomPickerStackView.topAnchor.constraint(equalTo: labelView.bottomAnchor),
+            bottomPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        
-       
         
         categoryPicker.reloadAllComponents()
         askForPicker.reloadAllComponents()
+        suggestionPicker.reloadAllComponents()
         // Do any additional setup after loading the view.
     }
     
@@ -102,10 +119,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func initializeModels() {
         guard let rModel = self.model,
             let categoryModel = rModel.categoryModel,
-            let askForModel = rModel.askForModel else { return }
+            let askForModel = rModel.askForModel,
+            let suggestionModel = rModel.suggestionModel else { return }
         categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
         askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
+        askForModel.currentAskFor = askForModel.askFors[0] as? AskFor
         askForModel.updateAskFors()
+        askForModel.updateSuggestions()
+        suggestionModel.currentAskFor = askForModel.currentAskFor
+        
+        
     }
     
     // Mark: - PickerView delegate and datasource functions
@@ -114,15 +137,17 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        guard let model = self.model?.categoryModel else { return 0 }
-//        return model.categories.count
+        
         switch pickerView {
         case categoryPicker:
             guard let model = self.model?.categoryModel else { return 0 }
             return model.categories.count
-        default:
+        case askForPicker:
             guard let model = self.model?.categoryModel else { return 0 }
             return model.currentCategory?.askFors?.count ?? 0
+        default:
+            guard let model = self.model?.suggestionModel else { return 0 }
+            return model.currentAskFor?.suggestions?.count ?? 0
         }
     }
     
@@ -139,6 +164,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 let askFor = model.currentCategory?.askFors?[row] as? AskFor else { return "" }
             title = askFor.askFor
             print(title)
+        case suggestionPicker:
+            guard let model = self.model?.askForModel,
+            let askFor = model.currentAskFor,
+                let suggestion = askFor.suggestions?[row] as? Suggestion else { return "" }
+            title = suggestion.suggestion
+            print(title)
         default:
             print("how did I get here?")
         }
@@ -149,22 +180,45 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         switch pickerView {
         case categoryPicker:
             guard let rModel = self.model,
-             let categoryModel = rModel.categoryModel else { return }
+            let categoryModel = rModel.categoryModel,
+            let askForModel = rModel.askForModel,
+            let suggestionModel = rModel.suggestionModel else { return }
             let currentCategory = categoryModel.categories[row] as? SceneCategory
             categoryModel.currentCategory = currentCategory
+            askForModel.currentCategory = currentCategory
+            askForModel.currentAskFor = askForModel.currentCategory?.askFors?[0] as? AskFor
             askForPicker.selectRow(0, inComponent: 0, animated: true)
             askForPicker.reloadAllComponents()
+            suggestionModel.currentAskFor  = askForModel.currentAskFor
+            askForLabel.text = "Spin for a random AskFor"
+            suggestionLabel.text = "Spin for a random Suggestion"
+            suggestionPicker.selectRow(0, inComponent: 0, animated: true)
+            suggestionPicker.reloadAllComponents()
             
+            
+            
+        case askForPicker:
+            guard let rModel = self.model,
+                let categoryModel = rModel.categoryModel,
+                let askForModel = rModel.askForModel,
+                let suggestionModel = rModel.suggestionModel else { return }
+            let currentCategory = categoryModel.currentCategory
+            askForModel.currentCategory = currentCategory
+            askForModel.currentAskFor = currentCategory?.askFors?[row] as? AskFor
+            suggestionModel.currentAskFor  = askForModel.currentAskFor
+            askForLabel.text = askForModel.currentAskFor?.askFor
+            askForModel.updateSuggestions()
+            suggestionLabel.text = "Spin for a random Suggestion"
+            suggestionPicker.selectRow(0, inComponent: 0, animated: true)
+            suggestionPicker.reloadAllComponents()
             
         default:
-            guard let askForModel = self.model?.askForModel else { return }
-            //askForModel.currentCategory = self.currentCategory
-            let currentAskFor = askForModel.askFors[row] as? AskFor
-            askForLabel.text = currentAskFor?.askFor
-            
+            guard let rModel = self.model,
+                let categoryModel = rModel.categoryModel,
+                let askForModel = rModel.askForModel else { return }
+            let suggestion = askForModel.currentAskFor?.suggestions?[row] as? Suggestion
+            suggestionLabel.text = suggestion?.suggestion
         }
-        pickerView.reloadAllComponents()
-       
     }
 
 }

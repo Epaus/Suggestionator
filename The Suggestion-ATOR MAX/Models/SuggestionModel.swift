@@ -52,5 +52,7 @@ class SuggestionModel {
             completion?(error)
         }
     }
+    
+   
         
 }

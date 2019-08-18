@@ -120,6 +120,7 @@ class UIElementsManager {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = adjustsFontSizeToFitWidth
         label.numberOfLines = numberOfLines
+        label.minimumScaleFactor = 0.5
         // label.adjustsFontForContentSizeCategory = true
         
         return label

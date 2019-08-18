@@ -16,6 +16,7 @@ class AskForModel {
     var currentCategory: SceneCategory?
     var askFors = [NSManagedObject]()
     var currentAskFor: AskFor?
+    var suggestions = [NSManagedObject]()
     
     init(managedContext: NSManagedObjectContext) {
         self.managedContext = managedContext
@@ -67,6 +68,19 @@ class AskForModel {
         } catch let error as NSError {
             os_log("Deleting error: ",error.userInfo)
             completion?(error)
+        }
+    }
+    
+    func updateSuggestions() {
+        let suggestionFetch: NSFetchRequest<Suggestion> = Suggestion.fetchRequest()
+        
+        do {
+            let results = try managedContext.fetch(suggestionFetch)
+            if results.count > 0 {
+                suggestions = results
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
         }
     }
 }
