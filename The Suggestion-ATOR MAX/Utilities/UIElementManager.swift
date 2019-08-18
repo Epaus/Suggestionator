@@ -11,18 +11,6 @@ import UIKit
 
 class UIElementsManager {
     
-    static func image(fromLayer layer: CALayer) -> UIImage {
-        UIGraphicsBeginImageContext(layer.frame.size)
-        
-        layer.render(in: UIGraphicsGetCurrentContext()!)
-        
-        let outputImage = UIGraphicsGetImageFromCurrentImageContext()
-        
-        UIGraphicsEndImageContext()
-        
-        return outputImage!
-    }
-    
     static func createTextField(placeholder: String = "",
                                 placeholderColor: UIColor? = nil,
                                 backgroundColor: UIColor = .white,
@@ -86,15 +74,6 @@ class UIElementsManager {
         return button
     }
     
-    static func createView() -> UIView {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = UIElementSizes.cornerRadius
-        //view.backgroundColor = UIColor.veryLightGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }
-    
     static func createImageView(image: UIImage? = nil, tintColor: UIColor? = nil, contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImageView {
         
         let imageView: UIImageView
@@ -111,7 +90,7 @@ class UIElementsManager {
         return imageView
     }
     
-    static func createLabel(text: String, font: UIFont = .titleFont, textColor: UIColor = .white, textAlignment: NSTextAlignment = .natural, adjustsFontSizeToFitWidth: Bool = false, numberOfLines: Int = 0) -> UILabel {
+    static func createLabel(text: String, font: UIFont = .titleFont, textColor: UIColor = .white, textAlignment: NSTextAlignment = .natural, adjustsFontSizeToFitWidth: Bool = true, numberOfLines: Int = 0) -> UILabel {
         let label = UILabel()
         label.font = font
         label.textColor = textColor
@@ -120,8 +99,8 @@ class UIElementsManager {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = adjustsFontSizeToFitWidth
         label.numberOfLines = numberOfLines
-        label.minimumScaleFactor = 0.5
-        // label.adjustsFontForContentSizeCategory = true
+        label.minimumScaleFactor = 0.50
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }
@@ -167,36 +146,6 @@ class UIElementsManager {
         doneToolbar.sizeToFit()
         
         textField.inputAccessoryView = doneToolbar
-    }
-    
-    static func addTextFieldAccessory(textField: UITextField, accessoryField: UITextField) {
-        let toolbar = UIToolbar()
-        
-        accessoryField.translatesAutoresizingMaskIntoConstraints = true
-        //accessoryField.frame = CGRect(x: 0, y: 0, width: UIElementSizes.windowWidth - 90, height: 30)
-        accessoryField.rightView?.translatesAutoresizingMaskIntoConstraints = true
-        accessoryField.rightView?.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-        
-        let barButtonItem = UIBarButtonItem(customView: accessoryField)
-        
-        toolbar.items = [barButtonItem]
-        toolbar.sizeToFit()
-        
-        textField.inputAccessoryView = toolbar
-        
-        //         let accessoryView = UIView()
-        //         accessoryView.backgroundColor = .detailGray
-        //         accessoryView.frame = CGRect(x: 0, y: 0, width: 0, height: 40)
-        //         accessoryView.translatesAutoresizingMaskIntoConstraints = false
-        //         textField.inputAccessoryView = accessoryView
-        //
-        //         accessoryView.addSubviews(innerTextField)
-        //         NSLayoutConstraint.activate([
-        //             innerTextField.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor, constant: -8),
-        //             innerTextField.heightAnchor.constraint(equalToConstant: 30),
-        //             innerTextField.centerYAnchor.constraint(equalTo: accessoryView.centerYAnchor),
-        //             innerTextField.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor, constant: 8)
-        //         ])
     }
     
     static func addRightButton(to textField: UITextField, button: UIButton, buttonSelector: Selector, rightPadding: CGFloat) {
@@ -289,14 +238,13 @@ class UIElementsManager {
         
     }
     
-    static func createUIStackView(width: CGFloat, height: CGFloat, axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, alignment: UIStackView.Alignment, spacing: CGFloat, backgroundColor: UIColor ) -> UIStackView {
+    static func createUIStackView(width: CGFloat, height: CGFloat, axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, alignment: UIStackView.Alignment, spacing: CGFloat ) -> UIStackView {
         let sView = UIStackView()
         sView.frame = CGRect(x: 0, y:0, width: width, height: height)
         sView.axis = axis
         sView.distribution =  .equalSpacing
         sView.alignment = alignment //UIStackView.Alignment.center
         sView.spacing = spacing
-        sView.backgroundColor = backgroundColor
         sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
     }

@@ -32,7 +32,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
     func setupTabBar() {
         tabBarController?.delegate = self
         tabBarController?.tabBar.delegate = self
-        tabBar.barTintColor = .white
+        tabBar.barTintColor = .backgroundBlue
         tabBar.isTranslucent = true
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.backgroundPink], for:.normal)
          UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for:.selected)

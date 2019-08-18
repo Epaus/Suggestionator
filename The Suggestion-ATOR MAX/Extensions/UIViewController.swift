@@ -10,12 +10,16 @@ import UIKit
 
 extension UIViewController {
     func setupNavigationBar() {
+        if let statusbarView = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusbarView.backgroundColor = .backgroundPink
         
+        }
         if let navController = self.navigationController {
-            navController.navigationBar.barStyle = .black
-            navController.navigationBar.tintColor = .white
-            navController.navigationBar.barTintColor = .pink
-            navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white
+            navController.navigationBar.barStyle = .default
+            navController.navigationBar.tintColor = .pink
+            navController.navigationBar.barTintColor = .backgroundPink
+            navController.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor: UIColor.pink
             ]
         }
     }

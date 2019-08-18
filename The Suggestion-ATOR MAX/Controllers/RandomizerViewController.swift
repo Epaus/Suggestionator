@@ -17,20 +17,20 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
    
     var model: RandomizerViewModel? = nil
    
-    
-    private lazy var topPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.25, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0, backgroundColor: .backgroundPink)
+    // MARK: - topPickerStackView elements
+    private lazy var topPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.7, axis: .horizontal, distribution: .equalSpacing, alignment: .bottom, spacing: 0)
     private var categoryPicker =  UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
-    private var askForPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
-    
-    private lazy var bottomPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.25, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0, backgroundColor: .backgroundPink)
-    private lazy var suggestionPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .magenta, tintColor: .cyan, textColor: .black)
-    
+    private var askForPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .clear, tintColor: .clear, textColor: .black)
     private lazy var pinkBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundPink
         view.layer.cornerRadius = 0
         return view
     }()
+    
+    // MARK: - bottomPickerStackView elements
+    private lazy var bottomPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.20, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0)
+    private lazy var suggestionPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .clear, tintColor: .clear, textColor: .black)
     private lazy var blueBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundBlue
@@ -38,27 +38,49 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return view
     }()
     
-    
-    let askForLabel = UIElementsManager.createLabel(text: "Spin for a random AskFor", font: .boldSystemFont(ofSize: 22), textColor: .pink, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
-    let suggestionLabel = UIElementsManager.createLabel(text: "Spin for a random Suggestion", font: .boldSystemFont(ofSize: 22), textColor: .backgroundBlue, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
-    
+    // MARK: - labelView elements
+    private let askForLabel = UIElementsManager.createLabel(text: "Spin for a random AskFor", font: .boldSystemFont(ofSize: 22), textColor: .pink, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
+    private let suggestionLabel = UIElementsManager.createLabel(text: "Spin for a random Suggestion", font: .boldSystemFont(ofSize: 22), textColor: .backgroundBlue, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
     private lazy var labelView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         view.layer.cornerRadius = 0
         view.translatesAutoresizingMaskIntoConstraints = false
-        
         return view
     }()
    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let statusbarView = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusbarView.backgroundColor = .backgroundPink
+        }
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         self.view.backgroundColor = .white
-       
-        self.view.addSubview(topPickerStackView)
-        self.view.addSubview(labelView)
         configureLabelView()
+        configurePickers()
+        setConstraints()
+    }
+    
+    // MARK: - Configure views
+    private func configureLabelView() {
+        labelView.addSubview(askForLabel)
+        labelView.addSubview(suggestionLabel)
+        self.view.addSubview(labelView)
+        
+        NSLayoutConstraint.activate([
+            askForLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10),
+            askForLabel.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: 10),
+            askForLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20),
+            suggestionLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10),
+            suggestionLabel.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: 10),
+            suggestionLabel.topAnchor.constraint(equalTo: askForLabel.bottomAnchor, constant: 10)
+        ])
+    }
+    
+    private func configurePickers() {
+        self.view.addSubview(topPickerStackView)
+        
         topPickerStackView.addArrangedSubview(categoryPicker)
         topPickerStackView.addArrangedSubview(askForPicker)
         pinBackground(pinkBackgroundView, to: topPickerStackView)
@@ -73,39 +95,10 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         askForPicker.delegate = self
         suggestionPicker.dataSource = self
         suggestionPicker.delegate = self
-      
-        NSLayoutConstraint.activate([
-            categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4),
-            askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.6),
-            topPickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
-            topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            topPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            labelView.topAnchor.constraint(equalTo: topPickerStackView.bottomAnchor),
-            labelView.heightAnchor.constraint(equalToConstant: UIElementSizes.windowHeight * 0.25),
-            labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            bottomPickerStackView.topAnchor.constraint(equalTo: labelView.bottomAnchor),
-            bottomPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
         
         categoryPicker.reloadAllComponents()
         askForPicker.reloadAllComponents()
         suggestionPicker.reloadAllComponents()
-        // Do any additional setup after loading the view.
-    }
-    
-    private func configureLabelView() {
-       
-        labelView.addSubview(askForLabel)
-        labelView.addSubview(suggestionLabel)
-        NSLayoutConstraint.activate([
-            askForLabel.centerXAnchor.constraint(equalTo: labelView.centerXAnchor),
-            askForLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20),
-            suggestionLabel.centerXAnchor.constraint(equalTo: labelView.centerXAnchor),
-            suggestionLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: 20),
-            ])
     }
     
     private func pinBackground(_ view: UIView, to stackView: UIStackView) {
@@ -114,8 +107,25 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         view.pin(to: stackView)
     }
     
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4),
+            askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.6),
+            topPickerStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            topPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            labelView.topAnchor.constraint(equalTo: topPickerStackView.bottomAnchor),
+            labelView.heightAnchor.constraint(equalToConstant: UIElementSizes.windowHeight * 0.15),
+            labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bottomPickerStackView.topAnchor.constraint(equalTo: labelView.bottomAnchor),
+            bottomPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+    }
     
-    
+    // MARK: - initializeModels
     func initializeModels() {
         guard let rModel = self.model,
             let categoryModel = rModel.categoryModel,
@@ -127,11 +137,9 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         askForModel.updateAskFors()
         askForModel.updateSuggestions()
         suggestionModel.currentAskFor = askForModel.currentAskFor
-        
-        
     }
     
-    // Mark: - PickerView delegate and datasource functions
+    // MARK: - PickerView delegate and datasource functions
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -194,8 +202,6 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             suggestionLabel.text = "Spin for a random Suggestion"
             suggestionPicker.selectRow(0, inComponent: 0, animated: true)
             suggestionPicker.reloadAllComponents()
-            
-            
             
         case askForPicker:
             guard let rModel = self.model,

@@ -26,9 +26,7 @@ class SceneCategoryController: UIViewController {
         self.view.backgroundColor = .white
         setupNavigationBar()
         configureTableView()
-        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCategoryButtonTapped(_:)))
-        addButton.tintColor = .white
-        navigationItem.rightBarButtonItem = addButton
+        configureAddButton()
     }
     
     func configureTableView() {
@@ -41,6 +39,12 @@ class SceneCategoryController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
             ])
+    }
+    
+    func configureAddButton() {
+        let addButton : UIBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCategoryButtonTapped(_:)))
+        addButton.tintColor = .pink
+        navigationItem.rightBarButtonItem = addButton
     }
     
     @objc func addCategoryButtonTapped(_ sender: UIBarButtonItem) {
