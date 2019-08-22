@@ -28,6 +28,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return view
     }()
     
+    
     // MARK: - bottomPickerStackView elements
     private lazy var bottomPickerStackView: UIStackView = UIElementsManager.createUIStackView(width: UIElementSizes.windowWidth, height: UIElementSizes.windowHeight * 0.20, axis: .horizontal, distribution: .equalSpacing, alignment: .center, spacing: 0)
     private lazy var suggestionPicker = UIElementsManager.createUIPickerView(borderWidth: 0, borderColor: .clear, tintColor: .clear, textColor: .black)
@@ -48,6 +49,20 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    var categoryPickerWidthConstraint = NSLayoutConstraint()
+    var askForPickerWidthConstraint = NSLayoutConstraint()
+    var topPickerStackViewTopAnchor = NSLayoutConstraint()
+    var topPickerStackViewLeadingAnchor = NSLayoutConstraint()
+    var topPickerStackViewTrailingAnchor = NSLayoutConstraint()
+    var labelViewTopAnchor = NSLayoutConstraint()
+    var labelViewHeightAnchor = NSLayoutConstraint()
+    var labelViewLeadingAnchor = NSLayoutConstraint()
+    var labelViewTrailingAnchor = NSLayoutConstraint()
+    var bottomPickerStackViewTopAnchor = NSLayoutConstraint()
+    var bottomPickerStackViewLeadingAnchor = NSLayoutConstraint()
+    var bottomPickerStackViewTrailingAnchor = NSLayoutConstraint()
+    var bottomPickerStackViewBottomAnchor = NSLayoutConstraint()
    
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -56,10 +71,15 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             statusbarView.backgroundColor = .backgroundPink
         }
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustConstraintsForOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
         self.view.backgroundColor = .white
         configureLabelView()
         configurePickers()
-        setConstraints()
+        adjustConstraintsForOrientation()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Configure views
@@ -107,21 +127,99 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         view.pin(to: stackView)
     }
     
-    private func setConstraints() {
+    private func setPortraitConstraints() {
+       
+        NSLayoutConstraint.deactivate([
+            categoryPickerWidthConstraint,
+            askForPickerWidthConstraint,
+            topPickerStackViewTopAnchor,
+            topPickerStackViewLeadingAnchor,
+            topPickerStackViewTrailingAnchor,
+            labelViewTopAnchor,
+            labelViewHeightAnchor,
+            labelViewLeadingAnchor,
+            labelViewTrailingAnchor,
+            bottomPickerStackViewTopAnchor,
+            bottomPickerStackViewLeadingAnchor,
+            bottomPickerStackViewTrailingAnchor,
+            bottomPickerStackViewBottomAnchor
+        ])
+        categoryPickerWidthConstraint = categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4)
+        askForPickerWidthConstraint = askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.6)
+        topPickerStackViewTopAnchor = topPickerStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        topPickerStackViewLeadingAnchor = topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        topPickerStackViewTrailingAnchor = topPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        labelViewTopAnchor = labelView.topAnchor.constraint(equalTo: topPickerStackView.bottomAnchor)
+        labelViewHeightAnchor = labelView.heightAnchor.constraint(equalToConstant: UIElementSizes.windowHeight * 0.15)
+        labelViewLeadingAnchor = labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        labelViewTrailingAnchor = labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        bottomPickerStackViewTopAnchor = bottomPickerStackView.topAnchor.constraint(equalTo: labelView.bottomAnchor)
+        bottomPickerStackViewLeadingAnchor = bottomPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        bottomPickerStackViewTrailingAnchor = bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        bottomPickerStackViewBottomAnchor = bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        
         NSLayoutConstraint.activate([
-            categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4),
-            askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.6),
-            topPickerStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            topPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            labelView.topAnchor.constraint(equalTo: topPickerStackView.bottomAnchor),
-            labelView.heightAnchor.constraint(equalToConstant: UIElementSizes.windowHeight * 0.15),
-            labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            bottomPickerStackView.topAnchor.constraint(equalTo: labelView.bottomAnchor),
-            bottomPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        categoryPickerWidthConstraint,
+        askForPickerWidthConstraint,
+        topPickerStackViewTopAnchor,
+        topPickerStackViewLeadingAnchor,
+        topPickerStackViewTrailingAnchor,
+        labelViewTopAnchor,
+        labelViewHeightAnchor,
+        labelViewLeadingAnchor,
+        labelViewTrailingAnchor,
+        bottomPickerStackViewTopAnchor,
+        bottomPickerStackViewLeadingAnchor,
+        bottomPickerStackViewTrailingAnchor,
+        bottomPickerStackViewBottomAnchor
+           
+            ])
+    }
+    
+    func setLandscapeConstraints() {
+        NSLayoutConstraint.deactivate([
+            categoryPickerWidthConstraint,
+            askForPickerWidthConstraint,
+            topPickerStackViewTopAnchor,
+            topPickerStackViewLeadingAnchor,
+            topPickerStackViewTrailingAnchor,
+            labelViewTopAnchor,
+            labelViewHeightAnchor,
+            labelViewLeadingAnchor,
+            labelViewTrailingAnchor,
+            bottomPickerStackViewTopAnchor,
+            bottomPickerStackViewLeadingAnchor,
+            bottomPickerStackViewTrailingAnchor,
+            bottomPickerStackViewBottomAnchor
+            ])
+        categoryPickerWidthConstraint = categoryPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.4)
+        askForPickerWidthConstraint = askForPicker.widthAnchor.constraint(equalToConstant: UIElementSizes.windowWidth * 0.3)
+        topPickerStackViewTopAnchor = topPickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20)
+        topPickerStackViewLeadingAnchor = topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10)
+        topPickerStackViewTrailingAnchor = topPickerStackView.trailingAnchor.constraint(equalTo: bottomPickerStackView.leadingAnchor, constant: 5)
+        bottomPickerStackViewTopAnchor = bottomPickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20)
+        bottomPickerStackViewLeadingAnchor = bottomPickerStackView.leadingAnchor.constraint(equalTo: topPickerStackView.trailingAnchor, constant: 5)
+        bottomPickerStackViewTrailingAnchor = bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 10)
+        bottomPickerStackViewBottomAnchor = bottomPickerStackView.bottomAnchor.constraint(equalTo: labelView.topAnchor)
+        labelViewTopAnchor = labelView.topAnchor.constraint(equalTo: bottomPickerStackView.bottomAnchor)
+        labelViewLeadingAnchor = labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant:5)
+        labelViewTrailingAnchor = labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 5)
+        labelViewHeightAnchor = labelView.heightAnchor.constraint(equalToConstant: 100)
+        
+        NSLayoutConstraint.activate([
+            categoryPickerWidthConstraint,
+                askForPickerWidthConstraint,
+                topPickerStackViewTopAnchor,
+                topPickerStackViewLeadingAnchor,
+                topPickerStackViewTrailingAnchor,
+                labelViewTopAnchor,
+                labelViewHeightAnchor,
+                labelViewLeadingAnchor,
+                labelViewTrailingAnchor,
+                bottomPickerStackViewTopAnchor,
+                bottomPickerStackViewLeadingAnchor,
+                bottomPickerStackViewTrailingAnchor,
+                bottomPickerStackViewBottomAnchor
             ])
     }
     
@@ -229,20 +327,11 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 }
 extension RandomizerViewController {
-    func shouldAutorotate() -> Bool {
-        // Lock autorotate
-        return false
-    }
-    
-    func supportedInterfaceOrientations() -> Int {
-        
-        // Only allow Portrait
-        return Int(UIInterfaceOrientationMask.portrait.rawValue)
-    }
-    
-    func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-        
-        // Only allow Portrait
-        return UIInterfaceOrientation.portrait
+    @objc func adjustConstraintsForOrientation() {
+        if UIDevice.current.orientation.isLandscape {
+           setLandscapeConstraints()
+        } else {
+           setPortraitConstraints()
+        }
     }
 }
