@@ -238,9 +238,8 @@ class UIElementsManager {
         
     }
     
-    static func createUIStackView(width: CGFloat, height: CGFloat, axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, alignment: UIStackView.Alignment, spacing: CGFloat ) -> UIStackView {
+    static func createUIStackView( axis: NSLayoutConstraint.Axis, distribution: UIStackView.Distribution, alignment: UIStackView.Alignment, spacing: CGFloat ) -> UIStackView {
         let sView = UIStackView()
-        sView.frame = CGRect(x: 0, y:0, width: width, height: height)
         sView.axis = axis
         sView.distribution =  .equalSpacing
         sView.alignment = alignment //UIStackView.Alignment.center
