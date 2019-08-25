@@ -48,6 +48,8 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     var categoryPickerWidthConstraint = NSLayoutConstraint()
     var askForPickerWidthConstraint = NSLayoutConstraint()
+    var categoryPickerCenterYConstraint = NSLayoutConstraint()
+    var askForPickerCenterYConstraint = NSLayoutConstraint()
     var topPickerStackViewTopAnchor = NSLayoutConstraint()
     var topPickerStackViewLeadingAnchor = NSLayoutConstraint()
     var topPickerStackViewTrailingAnchor = NSLayoutConstraint()
@@ -58,6 +60,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var labelViewLeadingAnchor = NSLayoutConstraint()
     var labelViewTrailingAnchor = NSLayoutConstraint()
     var labelViewBottomAnchor = NSLayoutConstraint()
+    var suggestionPickerCenterYConstraint = NSLayoutConstraint()
     var bottomPickerStackViewTopAnchor = NSLayoutConstraint()
     var bottomPickerStackViewLeadingAnchor = NSLayoutConstraint()
     var bottomPickerStackViewTrailingAnchor = NSLayoutConstraint()
@@ -130,7 +133,9 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
        
         NSLayoutConstraint.deactivate([
             categoryPickerWidthConstraint,
+            categoryPickerCenterYConstraint,
             askForPickerWidthConstraint,
+            askForPickerCenterYConstraint,
             topPickerStackViewTopAnchor,
             topPickerStackViewLeadingAnchor,
             topPickerStackViewTrailingAnchor,
@@ -141,6 +146,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             labelViewLeadingAnchor,
             labelViewTrailingAnchor,
             labelViewBottomAnchor,
+            suggestionPickerCenterYConstraint,
             bottomPickerStackViewTopAnchor,
             bottomPickerStackViewLeadingAnchor,
             bottomPickerStackViewTrailingAnchor,
@@ -155,20 +161,23 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             suggestionLabelTrailingAnchor
         ])
         categoryPickerWidthConstraint = categoryPicker.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, multiplier: 0.4)
+        categoryPickerCenterYConstraint = categoryPicker.centerYAnchor.constraint(equalTo:topPickerStackView.centerYAnchor, constant: 0)
         askForPickerWidthConstraint = askForPicker.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, multiplier: 0.6)
+        askForPickerCenterYConstraint = askForPicker.centerYAnchor.constraint(equalTo:topPickerStackView.centerYAnchor, constant: 0)
         topPickerStackViewTopAnchor = topPickerStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0)
         topPickerStackViewLeadingAnchor = topPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
         topPickerStackViewTrailingAnchor = topPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        topPickerStackViewHeightAnchor = topPickerStackView.heightAnchor.constraint(greaterThanOrEqualTo: self.view.heightAnchor, multiplier: 0.7)
+        topPickerStackViewHeightAnchor = topPickerStackView.heightAnchor.constraint(greaterThanOrEqualTo: self.view.heightAnchor, multiplier: 0.4)
         topPickerStackViewWidthAnchor = topPickerStackView.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         labelViewTopAnchor = labelView.topAnchor.constraint(equalTo: topPickerStackView.bottomAnchor)
         labelViewHeightAnchor = labelView.heightAnchor.constraint(lessThanOrEqualTo: self.view.heightAnchor, multiplier: 0.2)
         labelViewLeadingAnchor = labelView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
         labelViewTrailingAnchor = labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        suggestionPickerCenterYConstraint = suggestionPicker.centerYAnchor.constraint(equalTo:bottomPickerStackView.centerYAnchor, constant: 0)
         bottomPickerStackViewTopAnchor = bottomPickerStackView.topAnchor.constraint(equalTo: labelView.bottomAnchor)
         bottomPickerStackViewLeadingAnchor = bottomPickerStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
         bottomPickerStackViewTrailingAnchor = bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        bottomPickerStackViewBottomAnchor = bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        bottomPickerStackViewBottomAnchor = bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         bottomPickerStackViewHeightAnchor = bottomPickerStackView.heightAnchor.constraint(lessThanOrEqualTo: self.view.heightAnchor, multiplier: 0.2)
         askForLabelCenterYAnchor = askForLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20)
         askForLabelLeadingAnchor = askForLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
@@ -179,15 +188,19 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         NSLayoutConstraint.activate([
         categoryPickerWidthConstraint,
+        categoryPickerCenterYConstraint,
         askForPickerWidthConstraint,
+        askForPickerCenterYConstraint,
         topPickerStackViewTopAnchor,
         topPickerStackViewLeadingAnchor,
         topPickerStackViewTrailingAnchor,
         topPickerStackViewWidthAnchor,
+        topPickerStackViewHeightAnchor,
         labelViewTopAnchor,
         labelViewHeightAnchor,
         labelViewLeadingAnchor,
         labelViewTrailingAnchor,
+        suggestionPickerCenterYConstraint,
         bottomPickerStackViewTopAnchor,
         bottomPickerStackViewLeadingAnchor,
         bottomPickerStackViewTrailingAnchor,
@@ -205,7 +218,9 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func setLandscapeConstraints() {
         NSLayoutConstraint.deactivate([
             categoryPickerWidthConstraint,
+            categoryPickerCenterYConstraint,
             askForPickerWidthConstraint,
+            askForPickerCenterYConstraint,
             topPickerStackViewTopAnchor,
             topPickerStackViewLeadingAnchor,
             topPickerStackViewTrailingAnchor,
