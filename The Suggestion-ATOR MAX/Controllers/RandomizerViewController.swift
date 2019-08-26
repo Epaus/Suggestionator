@@ -292,9 +292,18 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let categoryModel = rModel.categoryModel,
             let askForModel = rModel.askForModel,
             let suggestionModel = rModel.suggestionModel else { return }
+        if categoryModel.categories.count == 0 {
+            let emptyAlert = UIElementsManager.createAlertController(title: "No Category", message: "Please touch the Catalog tab and add at least one Category, AskFor, and Suggestion")
+            DispatchQueue.main.async {
+                self.present(emptyAlert, animated: true, completion: {})
+            }
+            return
+        }
+        
         categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
         askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
         askForModel.currentAskFor = askForModel.askFors[0] as? AskFor
+        categoryModel.updateCategories()
         askForModel.updateAskFors()
         askForModel.updateSuggestions()
         suggestionModel.currentAskFor = askForModel.currentAskFor
@@ -327,18 +336,15 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             guard let model = self.model?.categoryModel,
                 let category = model.categories[row] as? SceneCategory else { return "" }
             title = category.title
-            print(title)
         case askForPicker:
             guard let model = self.model?.categoryModel,
                 let askFor = model.currentCategory?.askFors?[row] as? AskFor else { return "" }
             title = askFor.askFor
-            print(title)
         case suggestionPicker:
             guard let model = self.model?.askForModel,
             let askFor = model.currentAskFor,
                 let suggestion = askFor.suggestions?[row] as? Suggestion else { return "" }
             title = suggestion.suggestion
-            print(title)
         default:
             print("how did I get here?")
         }

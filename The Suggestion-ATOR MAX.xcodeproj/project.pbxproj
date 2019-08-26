@@ -21,6 +21,9 @@
 		CE27F16022EE516900A5DD5B /* UIElementSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE27F15F22EE516900A5DD5B /* UIElementSizes.swift */; };
 		CE27F16222EE56D000A5DD5B /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE27F16122EE56D000A5DD5B /* Constraints.swift */; };
 		CE3C3BCD2301005500874AB3 /* RandomizerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C3BCC2301005500874AB3 /* RandomizerViewModel.swift */; };
+		CE590D3223137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = CE590D2F23137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite */; };
+		CE590D3323137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-shm in Resources */ = {isa = PBXBuildFile; fileRef = CE590D3023137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-shm */; };
+		CE590D3423137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-wal in Resources */ = {isa = PBXBuildFile; fileRef = CE590D3123137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-wal */; };
 		CE5B897F23086B780092DC15 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5B897E23086B780092DC15 /* UIView.swift */; };
 		CE946A9C22FF678300EF027D /* SceneCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */; };
 		CE946A9D22FF678300EF027D /* SceneCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */; };
@@ -52,6 +55,9 @@
 		CE27F15F22EE516900A5DD5B /* UIElementSizes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIElementSizes.swift; sourceTree = "<group>"; };
 		CE27F16122EE56D000A5DD5B /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		CE3C3BCC2301005500874AB3 /* RandomizerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomizerViewModel.swift; sourceTree = "<group>"; };
+		CE590D2F23137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = The_Suggestion_ATOR_MAX.sqlite; sourceTree = "<group>"; };
+		CE590D3023137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "The_Suggestion_ATOR_MAX.sqlite-shm"; sourceTree = "<group>"; };
+		CE590D3123137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "The_Suggestion_ATOR_MAX.sqlite-wal"; sourceTree = "<group>"; };
 		CE5B897E23086B780092DC15 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		CE946A9A22FF678300EF027D /* SceneCategory+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneCategory+CoreDataClass.swift"; sourceTree = "<group>"; };
 		CE946A9B22FF678300EF027D /* SceneCategory+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneCategory+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 		CE1CD06022EE1A7700BD4321 /* The Suggestion-ATOR MAX */ = {
 			isa = PBXGroup;
 			children = (
+				CE590D2E23137E8E006369A3 /* PersistentStore */,
 				CEA1834922F68E3F0040B96F /* CoreData */,
 				CE27F16322EE61A000A5DD5B /* Models */,
 				CE27F15A22EE4EC800A5DD5B /* Utilities */,
@@ -161,6 +168,16 @@
 				CE3C3BCC2301005500874AB3 /* RandomizerViewModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CE590D2E23137E8E006369A3 /* PersistentStore */ = {
+			isa = PBXGroup;
+			children = (
+				CE590D2F23137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite */,
+				CE590D3023137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-shm */,
+				CE590D3123137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-wal */,
+			);
+			name = PersistentStore;
 			sourceTree = "<group>";
 		};
 		CEA1834922F68E3F0040B96F /* CoreData */ = {
@@ -233,6 +250,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE590D3423137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-wal in Resources */,
+				CE590D3223137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite in Resources */,
+				CE590D3323137EDD006369A3 /* The_Suggestion_ATOR_MAX.sqlite-shm in Resources */,
 				CE1CD06F22EE1A7900BD4321 /* LaunchScreen.storyboard in Resources */,
 				CE1CD06C22EE1A7900BD4321 /* Assets.xcassets in Resources */,
 			);
