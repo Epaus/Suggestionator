@@ -62,11 +62,11 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
         switch viewController {
         case randomizerVC:
             title = "Randomizer"
-            image = UIImage(named: "shoutIconSmall.png")!
+            image = UIImage(named: "shoutIcon.png")!
             selectedImage = image
         case navController:
             title = "Catalog"
-            image = UIImage(named: "plus_small.png")!
+            image = UIImage(named: "catalog")!
             selectedImage = image
         
         default:
