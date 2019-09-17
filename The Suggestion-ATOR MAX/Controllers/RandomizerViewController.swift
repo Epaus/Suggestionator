@@ -387,7 +387,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             
         default:
             guard let rModel = self.model,
-                let categoryModel = rModel.categoryModel,
+                let _ = rModel.categoryModel,
                 let askForModel = rModel.askForModel else { return }
             let suggestion = askForModel.currentAskFor?.suggestions?[row] as? Suggestion
             suggestionLabel.text = suggestion?.suggestion
