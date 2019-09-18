@@ -76,7 +76,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
    
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
-        initializeModels()
+        updatePickersForModels()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +91,29 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         configurePickers()
         adjustConstraintsForOrientation()
     }
+    
+    func initializeModels() {
+        
+        checkForEmptyModels()
+        
+        guard let rModel = self.model,
+            let categoryModel = rModel.categoryModel,
+            let askForModel = rModel.askForModel,
+            let suggestionModel = rModel.suggestionModel else { return }
+        
+        categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
+        categoryModel.updateCategories()
+        categoryPicker.reloadAllComponents()
+        categoryPicker.selectRow(0, inComponent:0, animated:false)
+        askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
+        askForModel.updateAskFors()
+        askForModel.currentAskFor = askForModel.currentCategory?.askFors?[0] as? AskFor
+        askForPicker.reloadAllComponents()
+        askForModel.updateSuggestions()
+        suggestionModel.currentAskFor = askForModel.currentAskFor
+        suggestionPicker.reloadAllComponents()
+    }
+    
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -289,32 +312,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             ])
     }
     
-    // MARK: - initializeModels
-    func initializeModels() {
-        guard let rModel = self.model,
-            let categoryModel = rModel.categoryModel,
-            let askForModel = rModel.askForModel,
-            let suggestionModel = rModel.suggestionModel else { return }
-        if categoryModel.categories.count == 0 {
-            let emptyAlert = UIElementsManager.createAlertController(title: "No Category", message: "Please touch the Catalog tab and add at least one Category, AskFor, and Suggestion")
-            DispatchQueue.main.async {
-                self.present(emptyAlert, animated: true, completion: {})
-            }
-            return
-        }
-        
-        categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
-        categoryModel.updateCategories()
-        categoryPicker.reloadAllComponents()
-        categoryPicker.selectRow(0, inComponent:0, animated:false)
-        askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
-        askForModel.updateAskFors()
-        askForModel.currentAskFor = askForModel.currentCategory?.askFors?[0] as? AskFor
-        askForPicker.reloadAllComponents()
-        askForModel.updateSuggestions()
-        suggestionModel.currentAskFor = askForModel.currentAskFor
-        suggestionPicker.reloadAllComponents()
-    }
+   
     
     // MARK: - PickerView delegate and datasource functions
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -408,6 +406,47 @@ extension RandomizerViewController {
            setLandscapeConstraints()
         } else {
            setPortraitConstraints()
+        }
+    }
+}
+
+// MARK: - private model update functions
+private extension RandomizerViewController {
+    
+    func updatePickersForModels() {
+        checkForEmptyModels()
+        
+        guard let rModel = self.model,
+            let categoryModel = rModel.categoryModel,
+            let askForModel = rModel.askForModel,
+            let suggestionModel = rModel.suggestionModel else { return }
+        
+        let selectedCategoryRow = categoryPicker.selectedRow(inComponent: 0)
+        categoryModel.currentCategory = categoryModel.categories[selectedCategoryRow] as? SceneCategory
+        categoryModel.updateCategories()
+        categoryPicker.reloadAllComponents()
+        
+        let selectedAskForRow = askForPicker.selectedRow(inComponent: 0)
+        askForModel.currentCategory = categoryModel.currentCategory
+        askForModel.updateAskFors()
+        askForModel.currentAskFor = askForModel.currentCategory?.askFors?[selectedAskForRow] as? AskFor
+        askForPicker.reloadAllComponents()
+        
+        suggestionModel.currentAskFor = askForModel.currentAskFor
+        askForModel.updateSuggestions()
+        suggestionPicker.reloadAllComponents()
+    }
+    
+    func checkForEmptyModels() {
+        guard let rModel = self.model,
+            let categoryModel = rModel.categoryModel else { return }
+        
+        if categoryModel.categories.count == 0 {
+            let emptyAlert = UIElementsManager.createAlertController(title: "No Category", message: "Please touch the Catalog tab and add at least one Category, AskFor, and Suggestion")
+            DispatchQueue.main.async {
+                self.present(emptyAlert, animated: true, completion: {})
+            }
+            return
         }
     }
 }

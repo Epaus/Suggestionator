@@ -29,6 +29,14 @@ class SceneCategoryController: UIViewController {
         configureAddButton()
     }
     
+    func getAnAskForForNewCategory() {
+        
+        let numRow = tableView.numberOfRows(inSection: 0)
+        let newIndexPath = IndexPath.init(row: numRow - 1, section: 0)
+        tableView(tableView, didSelectRowAt: newIndexPath )
+        
+    }
+    
     func configureTableView() {
         self.view.addSubview(tableView)
         tableView.dataSource = self
@@ -48,6 +56,12 @@ class SceneCategoryController: UIViewController {
     }
     
     @objc func addCategoryButtonTapped(_ sender: UIBarButtonItem) {
+        presentAlert(completion: {
+            self.tableView.reloadData()
+        })
+    }
+    
+    @objc func presentAlert(completion: (() -> Void)?) {    
         
         let alert = UIAlertController(title: "New Category",
                                       message: "Add a new category",
@@ -66,6 +80,8 @@ class SceneCategoryController: UIViewController {
                     os_log("error = ",error.localizedDescription)
                 }
                 vm.updateCategories()
+                self.tableView.reloadData()
+                self.getAnAskForForNewCategory()
             })
             self.tableView.reloadData()
         }

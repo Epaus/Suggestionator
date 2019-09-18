@@ -19,11 +19,18 @@ class SuggestionController: UIViewController {
         super.viewWillAppear(animated)
         guard let model = self.model else { return }
         navigationItem.title = model.currentAskFor?.askFor
+        if (model.currentAskFor?.suggestions?.count ?? 0) == 0 {
+            addSuggestionAlert(title: "New AskFor Requires a Suggestion", message: "Please enter a new Suggestion.")
+            navigationItem.hidesBackButton = true
+        } else {
+            navigationItem.hidesBackButton = false
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        
         configureAddButton()
         configureTableView()
         setupNavigationBar()
@@ -50,10 +57,14 @@ class SuggestionController: UIViewController {
     }
     
     @objc func addSuggestionButtonTapped(_ sender: UIBarButtonItem) {
+        addSuggestionAlert(title: "New Suggestion", message:"Add a new suggestion")
+    }
+    
+    func addSuggestionAlert(title: String, message: String) {
         guard let model = self.model else { return }
         
-        let alert = UIAlertController(title: "New Suggestion",
-                                      message: "Add a new suggestion",
+        let alert = UIAlertController(title: title,
+                                      message: message,
                                       preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: "Save", style: .default) {
@@ -66,6 +77,7 @@ class SuggestionController: UIViewController {
                 if let error = error {
                     os_log("error = ",error.localizedDescription)
                 }
+                self.navigationItem.hidesBackButton = false
                 self.tableView.reloadData()
             })
         }

@@ -12,6 +12,7 @@ import os.log
 
 class AskForsController: UIViewController {
     var model: AskForModel? = nil
+    var newAskFor = String()
     
     lazy var tableView: UITableView = UIElementsManager.createTableView(cellClass: UITableViewCell.self, reuseID: "Cell")
     
@@ -19,6 +20,12 @@ class AskForsController: UIViewController {
         super.viewWillAppear(animated)
         guard let model = self.model else { return }
         navigationItem.title = model.currentCategory?.title
+        if (model.currentCategory?.askFors?.count ?? 0) == 0 {
+            addAskForAlert(title: "New AskFor Requires a Suggestion", message: "Please enter a new Suggestion.")
+            navigationItem.hidesBackButton = true
+        } else {
+            navigationItem.hidesBackButton = false
+        }
     }
     
     override func viewDidLoad() {
@@ -27,6 +34,14 @@ class AskForsController: UIViewController {
         configureAddButton()
         configureTableView()
         setupNavigationBar()
+    }
+    
+    func getASuggestionForNewAskFor() {
+
+        let numRow = tableView.numberOfRows(inSection: 0)
+        let newIndexPath = IndexPath.init(row: numRow - 1, section: 0)
+        tableView(tableView, didSelectRowAt: newIndexPath )
+
     }
     
     func configureTableView() {
@@ -51,10 +66,16 @@ class AskForsController: UIViewController {
     
     
     @objc func addAskForButtonTapped(_ sender: UIBarButtonItem) {
+       presentAlert(completion: {
+         self.tableView.reloadData()
+       })
+    }
+    
+    func addAskForAlert(title: String, message: String) {
         guard let model = self.model else { return }
         
-        let alert = UIAlertController(title: "New AskFor",
-                                      message: "Add a new askFor",
+        let alert = UIAlertController(title: title,
+                                      message: message,
                                       preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: "Save", style: .default) {
@@ -67,9 +88,10 @@ class AskForsController: UIViewController {
                 if let error = error {
                     os_log("error = ",error.localizedDescription)
                 }
+                self.navigationItem.hidesBackButton = false
                 self.tableView.reloadData()
+                 self.getASuggestionForNewAskFor()
             })
-
         }
         
         let cancelAction = UIAlertAction(title: "Cancel",
@@ -83,7 +105,11 @@ class AskForsController: UIViewController {
         present(alert, animated: true)
     }
     
-   
+    func presentAlert(completion: (() -> Void)?) {
+        addAskForAlert(title: "New AskFor", message: "Add a new AskFor")
+    }
+    
+    
 }
 
 extension AskForsController : UITableViewDataSource {

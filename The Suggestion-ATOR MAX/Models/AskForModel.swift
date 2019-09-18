@@ -25,6 +25,23 @@ class AskForModel {
     
     // MARK: - CoreData functions
     
+    // not currently used. But could be useful later?
+    func askForHasSuggestions(newAskFor: String) -> Bool {
+       
+            let fetchRequest: NSFetchRequest<AskFor> = AskFor.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "%K = %@",
+                                                 argumentArray: [#keyPath(AskFor.askFor), newAskFor])
+            let results: [AskFor]?
+            do {
+                results = try managedContext.fetch(fetchRequest)
+            } catch {
+                return true
+            }
+            
+        return (results?.first?.suggestions?.count ?? 0) > 0
+      
+    }
+    
     func updateAskFors() {
         let askForFetch: NSFetchRequest<AskFor> = AskFor.fetchRequest()
         
@@ -32,6 +49,8 @@ class AskForModel {
             let results = try managedContext.fetch(askForFetch)
             if results.count > 0 {
                 askFors = results
+            } else {
+                askFors = [NSManagedObject]()
             }
         } catch let error as NSError {
             print("Fetch error: \(error) description: \(error.userInfo)")
@@ -78,6 +97,8 @@ class AskForModel {
             let results = try managedContext.fetch(suggestionFetch)
             if results.count > 0 {
                 suggestions = results
+            } else {
+                suggestions = [NSManagedObject]()
             }
         } catch let error as NSError {
             print("Fetch error: \(error) description: \(error.userInfo)")

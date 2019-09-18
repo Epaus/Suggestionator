@@ -30,6 +30,8 @@ class SceneCategoryModel {
             let results = try managedContext.fetch(categoryFetch)
             if results.count > 0 {
                 categories = results
+            } else {
+                categories = [NSManagedObject]()
             }
         } catch let error as NSError {
             print("Fetch error: \(error) description: \(error.userInfo)")
