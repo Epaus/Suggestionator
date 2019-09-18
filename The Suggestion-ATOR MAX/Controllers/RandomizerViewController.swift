@@ -75,6 +75,9 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var suggestionLabelTrailingAnchor = NSLayoutConstraint()
    
     // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        initializeModels()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .backgroundPink
@@ -301,12 +304,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         
         categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
-        askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
-        askForModel.currentAskFor = askForModel.askFors[0] as? AskFor
         categoryModel.updateCategories()
+        categoryPicker.reloadAllComponents()
+        categoryPicker.selectRow(0, inComponent:0, animated:false)
+        askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
         askForModel.updateAskFors()
+        askForModel.currentAskFor = askForModel.currentCategory?.askFors?[0] as? AskFor
+        askForPicker.reloadAllComponents()
         askForModel.updateSuggestions()
         suggestionModel.currentAskFor = askForModel.currentAskFor
+        suggestionPicker.reloadAllComponents()
     }
     
     // MARK: - PickerView delegate and datasource functions
