@@ -10,10 +10,16 @@ import UIKit
 
 extension UIViewController {
     func setupNavigationBar() {
-        if let statusbarView = UIApplication.shared.value(forKey: "statusBar") as? UIView {
-            statusbarView.backgroundColor = .backgroundPink
-        
+        if #available(iOS 13.0, *) {
+           
+        } else {
+            if let statusbarView = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+                statusbarView.backgroundColor = .backgroundPink
+            
+            }
         }
+        
+        
         if let navController = self.navigationController {
             navController.navigationBar.barStyle = .default
             navController.navigationBar.tintColor = .pink

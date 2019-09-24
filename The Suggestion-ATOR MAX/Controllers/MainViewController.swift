@@ -10,19 +10,25 @@ import UIKit
 import CoreData
 
 class MainViewController: UITabBarController, UITabBarControllerDelegate  {
-    var randomizerVC =  RandomizerViewController()
+    var randomizerVC:  RandomizerViewController
     var catalogVC = SceneCategoryController()
     var navController = UINavigationController()
    
     
-    
-    //var managedContext: NSManagedObjectContext!
+    // MARK: - Lifecycle
+    init(randomVC: RandomizerViewController) {
+           self.randomizerVC = randomVC
+           super.init(nibName: nil, bundle: nil)
+       }
+       
+       required init?(coder aDecoder: NSCoder) {
+           fatalError("\(#function) not supported!")
+       }
    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTabBar()
-        // Do any additional setup after loading the view.
+
     }
     
     override func viewWillLayoutSubviews() {
@@ -39,6 +45,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
         tabBar.unselectedItemTintColor = .backgroundPink
         tabBar.tintColor = .white
         navController = UINavigationController(rootViewController: catalogVC)
+        
         viewControllers = [randomizerVC, navController] 
         
         _ = viewControllers!.map( { $0.tabBarItem = createTabBarItems(viewController: $0) })
@@ -51,8 +58,6 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
         
         selectedIndex = 0
     }
-    
-    
     
     func createTabBarItems(viewController: UIViewController) -> UITabBarItem {
         var title: String?
@@ -86,7 +91,5 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
             print("the spinner vc")
         }
     }
-
-
 }
 

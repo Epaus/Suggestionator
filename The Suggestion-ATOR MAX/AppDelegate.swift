@@ -17,27 +17,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var coreDataStack = CoreDataManager(modelName: "The_Suggestion_ATOR_MAX")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let tabBarController = MainViewController()
-        
-        window?.rootViewController = tabBarController
-        
-        guard let vc =
-            window?.rootViewController as? MainViewController else {
-                return true
-        }
         let sceneCategoryModel = SceneCategoryModel.init(managedContext: coreDataStack.managedContext)
         let askForModel = AskForModel.init(managedContext: coreDataStack.managedContext)
         let suggestionModel = SuggestionModel.init(managedContext: coreDataStack.managedContext)
         let randomizerViewModel = RandomizerViewModel.init(categoryModel: sceneCategoryModel, askForModel: askForModel, suggestionModel: suggestionModel)
+        let randomizerVC = RandomizerViewController()
+        randomizerVC.model = randomizerViewModel
+        let tabBarController = MainViewController(randomVC: randomizerVC)
+              
+              window?.rootViewController = tabBarController
+              
+              guard let vc =
+                  window?.rootViewController as? MainViewController else {
+                      return true
+              }
         
         vc.catalogVC.model = sceneCategoryModel
-        vc.randomizerVC.model = randomizerViewModel
-        vc.randomizerVC.initializeModels()
+        tabBarController.setupTabBar()
         return true
     }
     

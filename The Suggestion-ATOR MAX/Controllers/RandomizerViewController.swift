@@ -76,43 +76,38 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
    
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
+        guard model != nil else { return }
         updatePickersForModels()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .backgroundPink
-        if let statusbarView = UIApplication.shared.value(forKey: "statusBar") as? UIView {
-            statusbarView.backgroundColor = .backgroundPink
-        }
+         if #available(iOS 13.0, *) {
+                  
+               } else {
+                   if let statusbarView = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+                       statusbarView.backgroundColor = .backgroundPink
+                   }
+               }
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         NotificationCenter.default.addObserver(self, selector: #selector(adjustConstraintsForOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
         self.view.backgroundColor = .white
         configureLabelView()
         configurePickers()
         adjustConstraintsForOrientation()
+        checkForEmptyModels()
+        guard let vm = model else { return }
+        vm.initializeModels(completion: {
+            vm.populateArrays()
+            self.categoryPicker.reloadAllComponents()
+            self.categoryPicker.selectRow(0, inComponent:0, animated:false)
+            self.askForPicker.reloadAllComponents()
+            self.askForPicker.selectRow(0, inComponent:0, animated:false)
+            self.suggestionPicker.reloadAllComponents()
+            self.suggestionPicker.selectRow(0, inComponent:0, animated:false)
+        })
     }
     
-    func initializeModels() {
-        
-        checkForEmptyModels()
-        
-        guard let rModel = self.model,
-            let categoryModel = rModel.categoryModel,
-            let askForModel = rModel.askForModel,
-            let suggestionModel = rModel.suggestionModel else { return }
-        
-        categoryModel.currentCategory = categoryModel.categories[0] as? SceneCategory
-        categoryModel.updateCategories()
-        categoryPicker.reloadAllComponents()
-        categoryPicker.selectRow(0, inComponent:0, animated:false)
-        askForModel.currentCategory = categoryModel.categories[0] as? SceneCategory
-        askForModel.updateAskFors()
-        askForModel.currentAskFor = askForModel.currentCategory?.askFors?[0] as? AskFor
-        askForPicker.reloadAllComponents()
-        askForModel.updateSuggestions()
-        suggestionModel.currentAskFor = askForModel.currentAskFor
-        suggestionPicker.reloadAllComponents()
-    }
     
     
     deinit {
@@ -320,36 +315,34 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
+        guard let model = self.model else { return 0 }
         switch pickerView {
         case categoryPicker:
-            guard let model = self.model?.categoryModel else { return 0 }
-            return model.categories.count
+            return model.categoryArray.count
+            
         case askForPicker:
-            guard let model = self.model?.categoryModel else { return 0 }
-            return model.currentCategory?.askFors?.count ?? 0
+            return model.askForArray.count
+            
         default:
-            guard let model = self.model?.suggestionModel else { return 0 }
-            return model.currentAskFor?.suggestions?.count ?? 0
+            return model.suggestionsArray.count
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title: String?
+        guard let model = self.model else { return "" }
         switch pickerView {
         case categoryPicker:
-            guard let model = self.model?.categoryModel,
-                let category = model.categories[row] as? SceneCategory else { return "" }
-            title = category.title
+            title = model.categoryArray[row]
         case askForPicker:
-            guard let model = self.model?.categoryModel,
-                let askFor = model.currentCategory?.askFors?[row] as? AskFor else { return "" }
-            title = askFor.askFor
+            title = model.askForArray[row]
         case suggestionPicker:
-            guard let model = self.model?.askForModel,
-            let askFor = model.currentAskFor,
-                let suggestion = askFor.suggestions?[row] as? Suggestion else { return "" }
-            title = suggestion.suggestion
+            if model.suggestionsArray.count > 1 {
+                title = model.suggestionsArray[row]
+            } else {
+                title = ""
+            }
+           
         default:
             print("how did I get here?")
         }
@@ -360,41 +353,39 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         switch pickerView {
         case categoryPicker:
             guard let rModel = self.model,
-            let categoryModel = rModel.categoryModel,
-            let askForModel = rModel.askForModel,
-            let suggestionModel = rModel.suggestionModel else { return }
-            let currentCategory = categoryModel.categories[row] as? SceneCategory
-            categoryModel.currentCategory = currentCategory
-            askForModel.currentCategory = currentCategory
-            askForModel.currentAskFor = askForModel.currentCategory?.askFors?[0] as? AskFor
-            askForPicker.selectRow(0, inComponent: 0, animated: true)
+                let categoryModel = rModel.categoryModel else { return }
+    
+            let currentCategory = (row != 0) ? categoryModel.categories[row - 1] as? SceneCategory : nil
+            if currentCategory != nil {
+                categoryModel.currentCategory = currentCategory
+            }
+           
+            rModel.updateAskForArray(category: categoryModel.currentCategory?.title ?? "")
+            rModel.updateSuggestionsArray(askFor: "")
             askForPicker.reloadAllComponents()
-            suggestionModel.currentAskFor  = askForModel.currentAskFor
             askForLabel.text = "Spin for a random AskFor"
-            suggestionLabel.text = "Spin for a random Suggestion"
-            suggestionPicker.selectRow(0, inComponent: 0, animated: true)
             suggestionPicker.reloadAllComponents()
+            suggestionLabel.text = "Spin for a random Suggestion"
+
+            
             
         case askForPicker:
             guard let rModel = self.model,
                 let categoryModel = rModel.categoryModel,
                 let askForModel = rModel.askForModel,
                 let suggestionModel = rModel.suggestionModel else { return }
-            let currentCategory = categoryModel.currentCategory
-            askForModel.currentCategory = currentCategory
-            askForModel.currentAskFor = currentCategory?.askFors?[row] as? AskFor
-            suggestionModel.currentAskFor  = askForModel.currentAskFor
-            askForLabel.text = askForModel.currentAskFor?.askFor
-            askForModel.updateSuggestions()
-            suggestionLabel.text = "Spin for a random Suggestion"
-            suggestionPicker.selectRow(0, inComponent: 0, animated: true)
+            
+            let currentAskFor = (row != 0) ? askForModel.askFors[row - 1] as? AskFor : nil
+            rModel.updateSuggestionsArray(askFor: currentAskFor?.askFor ?? "")
             suggestionPicker.reloadAllComponents()
+            suggestionLabel.text = "Spin for a random Suggestion"
+
             
         default:
             guard let rModel = self.model,
                 let _ = rModel.categoryModel,
                 let askForModel = rModel.askForModel else { return }
-            let suggestion = askForModel.currentAskFor?.suggestions?[row] as? Suggestion
+            let suggestion = askForModel.currentAskFor?.suggestions?[row - 1] as? Suggestion
             suggestionLabel.text = suggestion?.suggestion
         }
     }

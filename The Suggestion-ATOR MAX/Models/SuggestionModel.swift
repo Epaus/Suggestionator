@@ -53,4 +53,18 @@ class SuggestionModel {
         }
     }
     
+    func updateSuggestions() {
+        let suggestionFetch: NSFetchRequest<Suggestion> = Suggestion.fetchRequest()
+        
+        do {
+            let results = try managedContext.fetch(suggestionFetch)
+            if results.count > 0 {
+                suggestions = results
+            } else {
+                suggestions = [NSManagedObject]()
+            }
+        } catch let error as NSError {
+            print("Fetch error: \(error) description: \(error.userInfo)")
+        }
+    }
 }

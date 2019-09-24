@@ -15,11 +15,92 @@ class RandomizerViewModel {
     var categoryModel: SceneCategoryModel?
     var askForModel: AskForModel?
     var suggestionModel: SuggestionModel?
+    
+    var categoryArray = ["ALL"]
+    var askForArray = ["ALL"]
+    var suggestionsArray = [String]()
    
     
     init(categoryModel: SceneCategoryModel, askForModel: AskForModel, suggestionModel: SuggestionModel) {
         self.categoryModel = categoryModel
         self.askForModel = askForModel
         self.suggestionModel = suggestionModel
+    }
+    
+    func initializeModels(completion: (() -> Void)?) {
+        
+       if let cModel = categoryModel,
+        let aModel = askForModel,
+        let sModel = suggestionModel {
+        
+        cModel.currentCategory = nil
+        cModel.updateCategories()
+       
+        aModel.currentCategory = nil
+        
+        aModel.updateAskFors()
+        askForArray = convertAskForsObjectArrayToStringArray(moArray: aModel.askFors )
+       
+       
+        sModel.currentAskFor = nil
+        sModel.updateSuggestions()
+        suggestionsArray = convertSuggestionObjectArrayToStringArray(moArray: sModel.suggestions)
+        }
+        guard let complete = completion else { return }
+        complete()
+       
+    }
+    
+    func populateArrays() {
+        guard let cModel = categoryModel,
+         let aModel = askForModel,
+         let sModel = suggestionModel else { return }
+        let categories = cModel.categories
+        for category in categories {
+            if let cat = category as? SceneCategory {
+                categoryArray.append(cat.title ?? "")
+            }
+        }
+        let askFors = aModel.askFors
+        for askFor in askFors {
+            if let askF = askFor as? AskFor {
+                askForArray.append(askF.askFor ?? "")
+            }
+        }
+        
+        let suggestions = sModel.suggestions
+        suggestionsArray = convertSuggestionObjectArrayToStringArray(moArray: suggestions)
+    }
+    
+    func convertSuggestionObjectArrayToStringArray(moArray: [NSManagedObject]) -> [String] {
+        var tempArray = [String]()
+        for suggestion in moArray {
+            if let suggestion = suggestion as? Suggestion {
+                tempArray.append(suggestion.suggestion ?? "")
+            }
+        }
+        return tempArray
+    }
+    
+    func updateSuggestionsArray(askFor: String) {
+        if let  tempArray = askForModel?.suggestionsForAskFor(askFor: askFor) {
+            suggestionsArray = convertSuggestionObjectArrayToStringArray(moArray: tempArray)
+        }
+    }
+    
+    func convertAskForsObjectArrayToStringArray(moArray: [NSManagedObject]) -> [String] {
+        var tempArray = ["ALL"]
+        for askFor in moArray {
+            if let askFor = askFor as? AskFor {
+                tempArray.append(askFor.askFor ?? "")
+            }
+        }
+        return tempArray
+    }
+    
+    func updateAskForArray(category: String) {
+        if let tempArray = categoryModel?.askForsForCategory(category: category) {
+            askForArray = convertAskForsObjectArrayToStringArray(moArray: tempArray)
+        }
     }
 }
