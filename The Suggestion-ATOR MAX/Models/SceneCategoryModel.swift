@@ -68,5 +68,19 @@ class SceneCategoryModel {
         return askFors
     }
     
+    func categoryForString(title: String) -> SceneCategory {
+        let fetchRequest: NSFetchRequest<SceneCategory> = SceneCategory.fetchRequest()
+        var result = SceneCategory()
+        if title != "" {
+            fetchRequest.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(SceneCategory.title), title])
+        }
+        do {
+            result = try (managedContext.fetch(fetchRequest).first ?? SceneCategory())
+        } catch {
+            os_log(.error, "SceneCategory failure")
+        }
+        return result
+    }
+    
     
 }

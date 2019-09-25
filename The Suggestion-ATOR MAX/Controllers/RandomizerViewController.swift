@@ -324,6 +324,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             return model.askForArray.count
             
         default:
+            print("suggestions count = ",model.suggestionsArray.count)
             return model.suggestionsArray.count
         }
     }
@@ -346,6 +347,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         default:
             print("how did I get here?")
         }
+        print("titleForRow row = ", row)
         return title
     }
     
@@ -354,17 +356,18 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         case categoryPicker:
             guard let rModel = self.model,
                 let categoryModel = rModel.categoryModel else { return }
-    
-            let currentCategory = (row != 0) ? categoryModel.categories[row - 1] as? SceneCategory : nil
-            if currentCategory != nil {
-                categoryModel.currentCategory = currentCategory
-            }
+            let pickerTitle = rModel.categoryArray[row]
+            let currentCategory = (row != 0) ? rModel.categoryForTitle(title: pickerTitle) : nil
            
-            rModel.updateAskForArray(category: categoryModel.currentCategory?.title ?? "")
+            rModel.updateAskForArray(category: currentCategory?.title ?? "")
             rModel.updateSuggestionsArray(askFor: "")
             askForPicker.reloadAllComponents()
+            self.askForPicker.selectRow(0, inComponent:0, animated:false)
+            rModel.updateSuggestonsForCategory(title: pickerTitle)
+            self.suggestionPicker.reloadAllComponents()
+            self.suggestionPicker.selectRow(0, inComponent:0, animated:false)
+            
             askForLabel.text = "Spin for a random AskFor"
-            suggestionPicker.reloadAllComponents()
             suggestionLabel.text = "Spin for a random Suggestion"
 
             
@@ -382,11 +385,9 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
             
         default:
-            guard let rModel = self.model,
-                let _ = rModel.categoryModel,
-                let askForModel = rModel.askForModel else { return }
-            let suggestion = askForModel.currentAskFor?.suggestions?[row - 1] as? Suggestion
-            suggestionLabel.text = suggestion?.suggestion
+            guard let rModel = self.model else { return }
+            let suggestion = rModel.suggestionsArray[row]
+            suggestionLabel.text = suggestion
         }
     }
 

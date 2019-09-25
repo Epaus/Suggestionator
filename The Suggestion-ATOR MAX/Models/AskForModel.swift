@@ -42,8 +42,10 @@ class AskForModel {
       
     }
     
-    func suggestionsForAskFor(askFor: String) -> [NSManagedObject] {
-        var suggestions = [NSManagedObject]()
+   
+    
+    func suggestionsForAskFor(askFor: String) -> [Suggestion] {
+        var suggestions = [Suggestion]()
         let fetchRequest: NSFetchRequest<AskFor> = AskFor.fetchRequest()
         let results: [AskFor]?
         
@@ -53,7 +55,7 @@ class AskForModel {
         }
         do {
             results = try managedContext.fetch(fetchRequest)
-            suggestions = results?.first?.suggestions?.array as! [NSManagedObject]
+            suggestions = results?.first?.suggestions?.array as! [Suggestion]
         } catch {
             os_log(.error, "AskFor fetch failure")
         }

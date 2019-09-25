@@ -41,7 +41,6 @@ class RandomizerViewModel {
         aModel.updateAskFors()
         askForArray = convertAskForsObjectArrayToStringArray(moArray: aModel.askFors )
        
-       
         sModel.currentAskFor = nil
         sModel.updateSuggestions()
         suggestionsArray = convertSuggestionObjectArrayToStringArray(moArray: sModel.suggestions)
@@ -101,6 +100,27 @@ class RandomizerViewModel {
     func updateAskForArray(category: String) {
         if let tempArray = categoryModel?.askForsForCategory(category: category) {
             askForArray = convertAskForsObjectArrayToStringArray(moArray: tempArray)
+        }
+    }
+    
+    func categoryForTitle(title: String) -> SceneCategory {
+        guard let catModel = categoryModel else { return SceneCategory() }
+        return catModel.categoryForString(title: title)
+    }
+    
+    func updateSuggestonsForCategory(title: String)  {
+        suggestionsArray = [String]()
+        let category = categoryForTitle(title: title)
+        categoryModel?.currentCategory = category
+        guard let askFors = categoryModel?.currentCategory?.askFors else { return }
+        
+        for askFor in askFors {
+            let askF = askFor as? AskFor
+            if let  tempArray = askForModel?.suggestionsForAskFor(askFor: askF?.askFor ?? "") {
+                for suggestion in tempArray {
+                    suggestionsArray.append(suggestion.suggestion ?? "")
+                }
+            }
         }
     }
 }
