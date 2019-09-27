@@ -354,8 +354,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case categoryPicker:
-            guard let rModel = self.model,
-                let categoryModel = rModel.categoryModel else { return }
+            guard let rModel = self.model else { return }
             let pickerTitle = rModel.categoryArray[row]
             let currentCategory = (row != 0) ? rModel.categoryForTitle(title: pickerTitle) : nil
            
@@ -363,7 +362,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             rModel.updateSuggestionsArray(askFor: "")
             askForPicker.reloadAllComponents()
             self.askForPicker.selectRow(0, inComponent:0, animated:false)
-            rModel.updateSuggestonsForCategory(title: pickerTitle)
+            rModel.updateSuggestionsForCategory(title: pickerTitle)
             self.suggestionPicker.reloadAllComponents()
             self.suggestionPicker.selectRow(0, inComponent:0, animated:false)
             
@@ -373,14 +372,11 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             
             
         case askForPicker:
-            guard let rModel = self.model,
-                let categoryModel = rModel.categoryModel,
-                let askForModel = rModel.askForModel,
-                let suggestionModel = rModel.suggestionModel else { return }
-            
-            let currentAskFor = (row != 0) ? askForModel.askFors[row - 1] as? AskFor : nil
-            rModel.updateSuggestionsArray(askFor: currentAskFor?.askFor ?? "")
+            guard let rModel = self.model else { return }
+            let pickerTitle = rModel.askForArray[row]
+            rModel.updateSuggestionsArray(askFor: pickerTitle)
             suggestionPicker.reloadAllComponents()
+            askForLabel.text = pickerTitle
             suggestionLabel.text = "Spin for a random Suggestion"
 
             

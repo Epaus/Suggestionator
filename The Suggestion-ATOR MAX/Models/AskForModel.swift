@@ -124,4 +124,18 @@ class AskForModel {
             print("Fetch error: \(error) description: \(error.userInfo)")
         }
     }
+    
+    func askForForString(title: String) -> AskFor {
+        let fetchRequest: NSFetchRequest<AskFor> = AskFor.fetchRequest()
+        var result = AskFor()
+        if title != "" {
+            fetchRequest.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(AskFor.askFor), title])
+        }
+        do {
+            result = try (managedContext.fetch(fetchRequest).first ?? AskFor())
+        } catch {
+            os_log(.error, "AskFor failure")
+        }
+        return result
+    }
 }

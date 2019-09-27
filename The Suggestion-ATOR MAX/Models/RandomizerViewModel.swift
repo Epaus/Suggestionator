@@ -108,7 +108,12 @@ class RandomizerViewModel {
         return catModel.categoryForString(title: title)
     }
     
-    func updateSuggestonsForCategory(title: String)  {
+    func askForForTitle(title: String) -> AskFor {
+        guard let askForModel = askForModel else { return AskFor() }
+        return askForModel.askForForString(title: title)
+    }
+    
+    func updateSuggestionsForCategory(title: String)  {
         suggestionsArray = [String]()
         let category = categoryForTitle(title: title)
         categoryModel?.currentCategory = category
