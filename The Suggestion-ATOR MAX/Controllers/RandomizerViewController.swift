@@ -12,6 +12,9 @@ import CoreData
 class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
    
     var model: RandomizerViewModel? = nil
+    
+    let numRows = 1000
+    var midPoint = 500
    
     // MARK: - topPickerStackView elements
     private lazy var topPickerStackView: UIStackView = UIElementsManager.createUIStackView( axis: .horizontal, distribution: .equalSpacing, alignment: .bottom, spacing: 0)
@@ -104,7 +107,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             self.askForPicker.reloadAllComponents()
             self.askForPicker.selectRow(0, inComponent:0, animated:false)
             self.suggestionPicker.reloadAllComponents()
-            self.suggestionPicker.selectRow(0, inComponent:0, animated:false)
+            self.suggestionPicker.selectRow(500, inComponent:0, animated:false)
         })
     }
     
@@ -321,11 +324,10 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             return model.categoryArray.count
             
         case askForPicker:
-            return model.askForArray.count
+            return numRows //model.askForArray.count
             
         default:
-            print("suggestions count = ",model.suggestionsArray.count)
-            return model.suggestionsArray.count
+            return numRows  //model.suggestionsArray.count
         }
     }
     
@@ -336,10 +338,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         case categoryPicker:
             title = model.categoryArray[row]
         case askForPicker:
-            title = model.askForArray[row]
+            let index = getInfiniteIndexForArrayWithALL(array: model.askForArray, row: row)
+            title = model.askForArray[index]
         case suggestionPicker:
+            let index = row % model.suggestionsArray.count
             if model.suggestionsArray.count > 1 {
-                title = model.suggestionsArray[row]
+                title = model.suggestionsArray[index]
             } else {
                 title = ""
             }
@@ -349,6 +353,13 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         print("titleForRow row = ", row)
         return title
+    }
+    
+    func getInfiniteIndexForArrayWithALL(array: [String], row: Int) -> Int {
+        if row == 0 {
+            return 0
+        }
+        return  (row % array.count == 0) ? 1 : row % array.count
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -364,7 +375,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             self.askForPicker.selectRow(0, inComponent:0, animated:false)
             rModel.updateSuggestionsForCategory(title: pickerTitle)
             self.suggestionPicker.reloadAllComponents()
-            self.suggestionPicker.selectRow(0, inComponent:0, animated:false)
+            self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
             
             askForLabel.text = "Spin for a random AskFor"
             suggestionLabel.text = "Spin for a random Suggestion"
@@ -373,16 +384,19 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             
         case askForPicker:
             guard let rModel = self.model else { return }
-            let pickerTitle = rModel.askForArray[row]
+            let index = getInfiniteIndexForArrayWithALL(array: rModel.askForArray, row: row)
+            let pickerTitle = rModel.askForArray[index]
             rModel.updateSuggestionsArray(askFor: pickerTitle)
             suggestionPicker.reloadAllComponents()
+            self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
             askForLabel.text = pickerTitle
             suggestionLabel.text = "Spin for a random Suggestion"
 
             
         default:
             guard let rModel = self.model else { return }
-            let suggestion = rModel.suggestionsArray[row]
+            let index = row % rModel.suggestionsArray.count
+            let suggestion = rModel.suggestionsArray[index]
             suggestionLabel.text = suggestion
         }
     }
