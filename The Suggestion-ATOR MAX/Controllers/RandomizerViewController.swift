@@ -367,9 +367,9 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         case categoryPicker:
             guard let rModel = self.model else { return }
             let pickerTitle = rModel.categoryArray[row]
-            let currentCategory = (row != 0) ? rModel.categoryForTitle(title: pickerTitle) : nil
+            rModel.currentCategory = (row != 0) ? rModel.categoryForTitle(title: pickerTitle) : nil
            
-            rModel.updateAskForArray(category: currentCategory?.title ?? "")
+            rModel.updateAskForArray(category: rModel.currentCategory?.title ?? "")
             rModel.updateSuggestionsArray(askFor: "")
             askForPicker.reloadAllComponents()
             self.askForPicker.selectRow(0, inComponent:0, animated:false)
@@ -385,8 +385,13 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         case askForPicker:
             guard let rModel = self.model else { return }
             let index = getInfiniteIndexForArrayWithALL(array: rModel.askForArray, row: row)
-            let pickerTitle = rModel.askForArray[index]
-            rModel.updateSuggestionsArray(askFor: pickerTitle)
+            let pickerTitle = rModel.askForArray[index] == "ALL" ? "" : rModel.askForArray[index]
+            if pickerTitle == "" {
+                rModel.updateSuggestionsForCategory(title: rModel.currentCategory?.title ?? "")
+            } else {
+                rModel.updateSuggestionsArray(askFor: pickerTitle)
+            }
+            
             suggestionPicker.reloadAllComponents()
             self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
             askForLabel.text = pickerTitle

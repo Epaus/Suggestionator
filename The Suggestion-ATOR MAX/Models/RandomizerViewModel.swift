@@ -13,6 +13,7 @@ import os.log
 class RandomizerViewModel {
     
     var categoryModel: SceneCategoryModel?
+    var currentCategory: SceneCategory?
     var askForModel: AskForModel?
     var suggestionModel: SuggestionModel?
     
