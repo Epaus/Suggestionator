@@ -380,10 +380,8 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
             self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
             
-            askForSpinnerButton.titleLabel?.text = "Spin for a random AskFor"
-            askForSpinnerButton.setNeedsLayout()
-            suggestionSpinnerButton.titleLabel?.text = "Spin for a random Suggestion"
-            suggestionSpinnerButton.setNeedsLayout()
+            askForSpinnerButton.setTitle("Spin for a random AskFor", for: .normal)
+            suggestionSpinnerButton.setTitle("Spin for a random Suggestion", for: .normal   )
             
 
             
@@ -394,26 +392,26 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let pickerTitle = rModel.askForArray[index] == "ALL" ? "" : rModel.askForArray[index]
             if pickerTitle == "" {
                 rModel.updateSuggestionsForCategory(title: rModel.currentCategory?.title ?? "")
-                askForSpinnerButton.titleLabel?.text = "Spin for a random AskFor"
+                askForSpinnerButton.setTitle("Spin for a random AskFor", for: .normal)
             } else {
                 rModel.updateSuggestionsArray(askFor: pickerTitle)
-                askForSpinnerButton.titleLabel?.text = pickerTitle
+                askForSpinnerButton.setTitle(pickerTitle, for: .normal)
+                print("AskFor pickerTitle = ", pickerTitle)
             }
             askForSpinnerButton.setNeedsLayout()
             suggestionPicker.reloadAllComponents()
             let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
             self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
-            
-            suggestionSpinnerButton.titleLabel?.text = "Spin for a random Suggestion"
-            suggestionSpinnerButton.setNeedsLayout()
+            suggestionSpinnerButton.setTitle("Spin for a random Suggestion", for: .normal)
+
 
             
         default:
             guard let rModel = self.model else { return }
             let index = row % rModel.suggestionsArray.count
             let suggestion = rModel.suggestionsArray[index]
-            suggestionSpinnerButton.titleLabel?.text = suggestion
-            suggestionSpinnerButton.setNeedsLayout()
+            suggestionSpinnerButton.setTitle(suggestion, for: .normal)
+            print("suggestion titleLabel = ", suggestion)
         }
     }
 
