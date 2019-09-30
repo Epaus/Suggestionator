@@ -12,8 +12,8 @@ import CoreData
 class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
    
     var model: RandomizerViewModel? = nil
-    
-    let numRows = 1000
+    let numRows = 200000
+    var bigSpin = false
     
    
     // MARK: - topPickerStackView elements
@@ -99,6 +99,11 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.view.backgroundColor = .white
         configureLabelView()
         configurePickers()
+        askForSpinnerButton.tag = 0
+        askForSpinnerButton.addTarget(self, action: #selector(spinPicker(sender:)), for: .touchUpInside)
+        suggestionSpinnerButton.tag = 1
+        suggestionSpinnerButton.addTarget(self, action: #selector(spinPicker(sender:)), for: .touchUpInside)
+        
         adjustConstraintsForOrientation()
         checkForEmptyModels()
         guard let vm = model else { return }
@@ -353,7 +358,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         default:
             print("how did I get here?")
         }
-        print("titleForRow row = ", row)
+       
         return title
     }
     
@@ -414,16 +419,65 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             print("suggestion titleLabel = ", suggestion)
         }
     }
+    
+   
 
 }
-extension RandomizerViewController {
-    @objc func adjustConstraintsForOrientation() {
+@objc extension RandomizerViewController {
+    func adjustConstraintsForOrientation() {
         if UIDevice.current.orientation.isLandscape {
            setLandscapeConstraints()
         } else {
            setPortraitConstraints()
         }
     }
+    
+    
+    func spinPicker(sender: UIButton)  {
+        guard let rModel = model else { return }
+        
+        switch sender.tag {
+        case 0:
+            let count = rModel.askForArray.count
+            let picker = askForPicker
+            let index = getRandomIndex(size: count)
+            DispatchQueue.main.async {
+                picker.selectRow(index, inComponent: 0, animated: true)
+                picker.showsSelectionIndicator = true
+            }
+           
+        case 1:
+            let count = rModel.suggestionsArray.count
+            let picker = suggestionPicker
+            let index = getRandomIndex(size: count)
+            DispatchQueue.main.async {
+                picker.selectRow(index, inComponent: 0, animated: true)
+                picker.showsSelectionIndicator = true
+            }
+            
+           
+        default:
+            print("how did we get here?")
+        }
+      
+    }
+    
+    func getRandomIndex(size: Int) -> Int {
+        let random = arc4random()
+        let position = Int(random) % size
+        let index =  (bigSpin == true ) ? ( 1000 * size + position) : ( size + position)
+        bigSpin.toggle()
+        return index
+    }
+    
+    
+    
+    /*
+     int spin1 = arc4random() % self.totalAskFors;
+      [picker selectRow:(self.multiplier - 2) * self.totalAskFors + spin1 inComponent:0 animated:YES];
+     */
+    
+   
 }
 
 // MARK: - private model update functions
