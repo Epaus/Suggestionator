@@ -56,13 +56,20 @@ class UIElementsManager {
         return textField
     }
     
-    static func createButton(text: String, font: UIFont = .generalTextFont, titleColor: UIColor = .white, backgroundColor: UIColor = .clear, borderWidth: CGFloat = 0, borderColor: UIColor = .clear, cornerRadius: CGFloat = 5) -> UIButton {
+    static func createButton(text: String, font: UIFont = .generalTextFont, titleColor: UIColor = .white, backgroundColor: UIColor = .clear, borderWidth: CGFloat = 0, borderColor: UIColor = .clear, cornerRadius: CGFloat = 5, textAlignment: NSTextAlignment) -> UIButton {
         
         let button = UIButton()
         button.setTitle(text, for: .normal)
         button.titleLabel?.font = font
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.titleLabel?.textAlignment = textAlignment
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        
+        NSLayoutConstraint.activate([
+            
+        ])
         
         button.setTitleColor(titleColor, for: .normal)
         button.backgroundColor = backgroundColor

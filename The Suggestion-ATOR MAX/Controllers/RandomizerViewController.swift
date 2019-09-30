@@ -14,7 +14,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var model: RandomizerViewModel? = nil
     
     let numRows = 1000
-    var midPoint = 500
+    
    
     // MARK: - topPickerStackView elements
     private lazy var topPickerStackView: UIStackView = UIElementsManager.createUIStackView( axis: .horizontal, distribution: .equalSpacing, alignment: .bottom, spacing: 0)
@@ -39,8 +39,10 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }()
     
     // MARK: - labelView elements
-    private let askForLabel = UIElementsManager.createLabel(text: "Spin for a random AskFor", font: .boldSystemFont(ofSize: 22), textColor: .pink, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
-    private let suggestionLabel = UIElementsManager.createLabel(text: "Spin for a random Suggestion", font: .boldSystemFont(ofSize: 22), textColor: .backgroundBlue, textAlignment: .center, adjustsFontSizeToFitWidth: true, numberOfLines: 0)
+    private let askForSpinnerButton = UIElementsManager.createButton(text: "Spin for a random AskFor", font: .boldSystemFont(ofSize: 22), titleColor: .pink, backgroundColor: .clear, borderWidth:  0, borderColor: .clear, cornerRadius: 0, textAlignment: .center)
+    
+    private let suggestionSpinnerButton = UIElementsManager.createButton(text: "Spin for a random Suggestion", font: .boldSystemFont(ofSize: 22), titleColor: .backgroundBlue, backgroundColor: .clear, borderWidth: 0, borderColor: .clear, cornerRadius: 0, textAlignment: .center)
+    
     private lazy var labelView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
@@ -70,12 +72,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var bottomPickerStackViewBottomAnchor = NSLayoutConstraint()
     var bottomPickerStackViewHeightAnchor = NSLayoutConstraint()
     var bottomPickerStackViewWidthAnchor = NSLayoutConstraint()
-    var askForLabelCenterYAnchor = NSLayoutConstraint()
-    var askForLabelLeadingAnchor = NSLayoutConstraint()
-    var askForLabelTrailingAnchor = NSLayoutConstraint()
-    var suggestionLabelCenterYAnchor = NSLayoutConstraint()
-    var suggestionLabelLeadingAnchor = NSLayoutConstraint()
-    var suggestionLabelTrailingAnchor = NSLayoutConstraint()
+    var askForSpinnerButtonCenterYAnchor = NSLayoutConstraint()
+    var askForSpinnerButtonLeadingAnchor = NSLayoutConstraint()
+    var askForSpinnerButtonTrailingAnchor = NSLayoutConstraint()
+    var suggestionSpinnerButtonCenterYAnchor = NSLayoutConstraint()
+    var suggestionSpinnerButtonLeadingAnchor = NSLayoutConstraint()
+    var suggestionSpinnerButtonTrailingAnchor = NSLayoutConstraint()
    
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -119,8 +121,8 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     // MARK: - Configure views
     private func configureLabelView() {
-        labelView.addSubview(askForLabel)
-        labelView.addSubview(suggestionLabel)
+        labelView.addSubview(askForSpinnerButton)
+        labelView.addSubview(suggestionSpinnerButton)
         self.view.addSubview(labelView)
     }
     
@@ -177,12 +179,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             bottomPickerStackViewBottomAnchor,
             bottomPickerStackViewHeightAnchor,
             bottomPickerStackViewWidthAnchor,
-            askForLabelCenterYAnchor,
-            askForLabelLeadingAnchor,
-            askForLabelTrailingAnchor,
-            suggestionLabelCenterYAnchor,
-            suggestionLabelLeadingAnchor,
-            suggestionLabelTrailingAnchor
+            askForSpinnerButtonCenterYAnchor,
+            askForSpinnerButtonLeadingAnchor,
+            askForSpinnerButtonTrailingAnchor,
+            suggestionSpinnerButtonCenterYAnchor,
+            suggestionSpinnerButtonLeadingAnchor,
+            suggestionSpinnerButtonTrailingAnchor
         ])
         categoryPickerWidthConstraint = categoryPicker.widthAnchor.constraint(lessThanOrEqualTo: self.view.widthAnchor, multiplier: 0.4)
         categoryPickerCenterYConstraint = categoryPicker.centerYAnchor.constraint(equalTo:topPickerStackView.centerYAnchor, constant: 0)
@@ -203,12 +205,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         bottomPickerStackViewTrailingAnchor = bottomPickerStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         bottomPickerStackViewBottomAnchor = bottomPickerStackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         bottomPickerStackViewHeightAnchor = bottomPickerStackView.heightAnchor.constraint(lessThanOrEqualTo: self.view.heightAnchor, multiplier: 0.2)
-        askForLabelCenterYAnchor = askForLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20)
-        askForLabelLeadingAnchor = askForLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
-        askForLabelTrailingAnchor = askForLabel.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
-        suggestionLabelCenterYAnchor = suggestionLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: 20)
-        suggestionLabelLeadingAnchor = suggestionLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
-        suggestionLabelTrailingAnchor = suggestionLabel.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
+        askForSpinnerButtonCenterYAnchor = askForSpinnerButton.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20)
+        askForSpinnerButtonLeadingAnchor = askForSpinnerButton.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
+        askForSpinnerButtonTrailingAnchor = askForSpinnerButton.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
+        suggestionSpinnerButtonCenterYAnchor = suggestionSpinnerButton.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: 20)
+        suggestionSpinnerButtonLeadingAnchor = suggestionSpinnerButton.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
+        suggestionSpinnerButtonTrailingAnchor = suggestionSpinnerButton.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
         
         NSLayoutConstraint.activate([
         categoryPickerWidthConstraint,
@@ -229,12 +231,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         bottomPickerStackViewLeadingAnchor,
         bottomPickerStackViewTrailingAnchor,
         bottomPickerStackViewBottomAnchor,
-        askForLabelTrailingAnchor,
-        askForLabelLeadingAnchor,
-        askForLabelCenterYAnchor,
-        suggestionLabelTrailingAnchor,
-        suggestionLabelLeadingAnchor,
-        suggestionLabelCenterYAnchor
+        askForSpinnerButtonTrailingAnchor,
+        askForSpinnerButtonLeadingAnchor,
+        askForSpinnerButtonCenterYAnchor,
+        suggestionSpinnerButtonTrailingAnchor,
+        suggestionSpinnerButtonLeadingAnchor,
+        suggestionSpinnerButtonCenterYAnchor
            
             ])
     }
@@ -278,12 +280,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         labelViewTrailingAnchor = labelView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0)
         labelViewHeightAnchor = labelView.heightAnchor.constraint(greaterThanOrEqualTo: self.view.heightAnchor, multiplier: 0.4)
         labelViewBottomAnchor = labelView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        askForLabelCenterYAnchor = askForLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20)
-        askForLabelLeadingAnchor = askForLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
-        askForLabelTrailingAnchor = askForLabel.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
-        suggestionLabelCenterYAnchor = suggestionLabel.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: 20)
-        suggestionLabelLeadingAnchor = suggestionLabel.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
-        suggestionLabelTrailingAnchor = suggestionLabel.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
+        askForSpinnerButtonCenterYAnchor = askForSpinnerButton.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: -20)
+        askForSpinnerButtonLeadingAnchor = askForSpinnerButton.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
+        askForSpinnerButtonTrailingAnchor = askForSpinnerButton.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
+        suggestionSpinnerButtonCenterYAnchor = suggestionSpinnerButton.centerYAnchor.constraint(equalTo: labelView.centerYAnchor, constant: 20)
+        suggestionSpinnerButtonLeadingAnchor = suggestionSpinnerButton.leadingAnchor.constraint(equalTo: labelView.leadingAnchor, constant: 10)
+        suggestionSpinnerButtonTrailingAnchor = suggestionSpinnerButton.trailingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: -10)
         
         NSLayoutConstraint.activate([
             categoryPickerWidthConstraint,
@@ -301,12 +303,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 bottomPickerStackViewTrailingAnchor,
                 bottomPickerStackViewBottomAnchor,
                 bottomPickerStackViewWidthAnchor,
-                askForLabelCenterYAnchor,
-                askForLabelLeadingAnchor,
-                askForLabelTrailingAnchor,
-                suggestionLabelCenterYAnchor,
-                suggestionLabelLeadingAnchor,
-                suggestionLabelTrailingAnchor
+                askForSpinnerButtonCenterYAnchor,
+                askForSpinnerButtonLeadingAnchor,
+                askForSpinnerButtonTrailingAnchor,
+                suggestionSpinnerButtonCenterYAnchor,
+                suggestionSpinnerButtonLeadingAnchor,
+                suggestionSpinnerButtonTrailingAnchor
             ])
     }
     
@@ -375,10 +377,14 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             self.askForPicker.selectRow(0, inComponent:0, animated:false)
             rModel.updateSuggestionsForCategory(title: pickerTitle)
             self.suggestionPicker.reloadAllComponents()
+            let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
             self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
             
-            askForLabel.text = "Spin for a random AskFor"
-            suggestionLabel.text = "Spin for a random Suggestion"
+            askForSpinnerButton.titleLabel?.text = "Spin for a random AskFor"
+            askForSpinnerButton.setNeedsLayout()
+            suggestionSpinnerButton.titleLabel?.text = "Spin for a random Suggestion"
+            suggestionSpinnerButton.setNeedsLayout()
+            
 
             
             
@@ -388,21 +394,26 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let pickerTitle = rModel.askForArray[index] == "ALL" ? "" : rModel.askForArray[index]
             if pickerTitle == "" {
                 rModel.updateSuggestionsForCategory(title: rModel.currentCategory?.title ?? "")
+                askForSpinnerButton.titleLabel?.text = "Spin for a random AskFor"
             } else {
                 rModel.updateSuggestionsArray(askFor: pickerTitle)
+                askForSpinnerButton.titleLabel?.text = pickerTitle
             }
-            
+            askForSpinnerButton.setNeedsLayout()
             suggestionPicker.reloadAllComponents()
+            let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
             self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
-            askForLabel.text = pickerTitle
-            suggestionLabel.text = "Spin for a random Suggestion"
+            
+            suggestionSpinnerButton.titleLabel?.text = "Spin for a random Suggestion"
+            suggestionSpinnerButton.setNeedsLayout()
 
             
         default:
             guard let rModel = self.model else { return }
             let index = row % rModel.suggestionsArray.count
             let suggestion = rModel.suggestionsArray[index]
-            suggestionLabel.text = suggestion
+            suggestionSpinnerButton.titleLabel?.text = suggestion
+            suggestionSpinnerButton.setNeedsLayout()
         }
     }
 

@@ -118,13 +118,20 @@ class RandomizerViewModel {
         suggestionsArray = [String]()
         let category = categoryForTitle(title: title)
         categoryModel?.currentCategory = category
-        guard let askFors = categoryModel?.currentCategory?.askFors else { return }
-        
-        for askFor in askFors {
-            let askF = askFor as? AskFor
-            if let  tempArray = askForModel?.suggestionsForAskFor(askFor: askF?.askFor ?? "") {
-                for suggestion in tempArray {
-                    suggestionsArray.append(suggestion.suggestion ?? "")
+        if title == "ALL" {
+            initializeModels(completion: {
+                print("ALL category - what to do now?")
+            })
+        } else {
+            guard let askFors = categoryModel?.currentCategory?.askFors else { return }
+            
+            
+            for askFor in askFors {
+                let askF = askFor as? AskFor
+                if let  tempArray = askForModel?.suggestionsForAskFor(askFor: askF?.askFor ?? "") {
+                    for suggestion in tempArray {
+                        suggestionsArray.append(suggestion.suggestion ?? "")
+                    }
                 }
             }
         }
