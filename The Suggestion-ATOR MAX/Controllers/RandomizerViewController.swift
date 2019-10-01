@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import os.log
 
 class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
    
@@ -331,10 +332,10 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             return model.categoryArray.count
             
         case askForPicker:
-            return numRows //model.askForArray.count
+            return numRows
             
         default:
-            return numRows  //model.suggestionsArray.count
+            return numRows
         }
     }
     
@@ -348,7 +349,10 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let index = getInfiniteIndexForArrayWithALL(array: model.askForArray, row: row)
             title = model.askForArray[index]
         case suggestionPicker:
-            let index = row % model.suggestionsArray.count
+            var index = 0
+            if model.suggestionsArray.count > 0 {
+                index = row % model.suggestionsArray.count
+            }
             if model.suggestionsArray.count > 1 {
                 title = model.suggestionsArray[index]
             } else {
@@ -356,7 +360,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             }
            
         default:
-            print("how did I get here?")
+            os_log("titleForRow pickerView = %@ - how did we get here?", pickerView)
         }
        
         return title
@@ -372,57 +376,65 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case categoryPicker:
-            guard let rModel = self.model else { return }
-            let pickerTitle = rModel.categoryArray[row]
-            rModel.currentCategory = (row != 0) ? rModel.categoryForTitle(title: pickerTitle) : nil
-           
-            rModel.updateAskForArray(category: rModel.currentCategory?.title ?? "")
-            rModel.updateSuggestionsArray(askFor: "")
-            askForPicker.reloadAllComponents()
-            self.askForPicker.selectRow(0, inComponent:0, animated:false)
-            rModel.updateSuggestionsForCategory(title: pickerTitle)
-            self.suggestionPicker.reloadAllComponents()
-            let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
-            self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
-            
-            askForSpinnerButton.setTitle("Spin for a random AskFor", for: .normal)
-            suggestionSpinnerButton.setTitle("Spin for a random Suggestion", for: .normal   )
-            
-
-            
+            didSelectCategory(row: row)
             
         case askForPicker:
-            guard let rModel = self.model else { return }
-            let index = getInfiniteIndexForArrayWithALL(array: rModel.askForArray, row: row)
-            let pickerTitle = rModel.askForArray[index] == "ALL" ? "" : rModel.askForArray[index]
-            if pickerTitle == "" {
-                rModel.updateSuggestionsForCategory(title: rModel.currentCategory?.title ?? "")
-                askForSpinnerButton.setTitle("Spin for a random AskFor", for: .normal)
-            } else {
-                rModel.updateSuggestionsArray(askFor: pickerTitle)
-                askForSpinnerButton.setTitle(pickerTitle, for: .normal)
-                print("AskFor pickerTitle = ", pickerTitle)
-            }
-            askForSpinnerButton.setNeedsLayout()
-            suggestionPicker.reloadAllComponents()
-            let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
-            self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
-            suggestionSpinnerButton.setTitle("Spin for a random Suggestion", for: .normal)
-
-
-            
+            didSelectAskFor(row: row)
+           
         default:
-            guard let rModel = self.model else { return }
-            let index = row % rModel.suggestionsArray.count
-            let suggestion = rModel.suggestionsArray[index]
-            suggestionSpinnerButton.setTitle(suggestion, for: .normal)
-            print("suggestion titleLabel = ", suggestion)
+          didSelectSuggestion(row: row)
         }
     }
     
-   
-
+    func didSelectCategory(row: Int) {
+        guard let rModel = self.model else { return }
+        let pickerTitle = rModel.categoryArray[row]
+        rModel.currentCategory = (row != 0) ? rModel.categoryForTitle(title: pickerTitle) : nil
+        
+        rModel.updateAskForArray(category: rModel.currentCategory?.title ?? "")
+        rModel.updateSuggestionsArray(askFor: "")
+        askForPicker.reloadAllComponents()
+        self.askForPicker.selectRow(0, inComponent:0, animated:false)
+        rModel.updateSuggestionsForCategory(title: pickerTitle)
+        self.suggestionPicker.reloadAllComponents()
+        let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
+        self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
+        
+        askForSpinnerButton.setTitle("Spin for a random AskFor", for: .normal)
+        suggestionSpinnerButton.setTitle("Spin for a random Suggestion", for: .normal   )
+    }
+    
+    func didSelectAskFor(row: Int) {
+        guard let rModel = self.model else { return }
+        let index = getInfiniteIndexForArrayWithALL(array: rModel.askForArray, row: row)
+        let pickerTitle = rModel.askForArray[index] == "ALL" ? "" : rModel.askForArray[index]
+        if pickerTitle == "" {
+            rModel.updateSuggestionsForCategory(title: rModel.currentCategory?.title ?? "")
+            askForSpinnerButton.setTitle("Spin for a random AskFor", for: .normal)
+        } else {
+            rModel.updateSuggestionsArray(askFor: pickerTitle)
+            askForSpinnerButton.setTitle(pickerTitle, for: .normal)
+            print("AskFor pickerTitle = ", pickerTitle)
+        }
+        askForSpinnerButton.setNeedsLayout()
+        suggestionPicker.reloadAllComponents()
+        if rModel.suggestionsArray.count > 0 {
+            let midPoint = (numRows % rModel.suggestionsArray.count) + numRows/2
+            self.suggestionPicker.selectRow(midPoint, inComponent:0, animated:false)
+        }
+       
+        suggestionSpinnerButton.setTitle("Spin for a random Suggestion", for: .normal)
+    }
+    
+    func didSelectSuggestion(row: Int) {
+        guard let rModel = self.model else { return }
+        let index = row % rModel.suggestionsArray.count
+        let suggestion = rModel.suggestionsArray[index]
+        suggestionSpinnerButton.setTitle(suggestion, for: .normal)
+        print("suggestion titleLabel = ", suggestion)
+    }
 }
+
 @objc extension RandomizerViewController {
     func adjustConstraintsForOrientation() {
         if UIDevice.current.orientation.isLandscape {
@@ -443,6 +455,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let index = getRandomIndex(size: count)
             DispatchQueue.main.async {
                 picker.selectRow(index, inComponent: 0, animated: true)
+                self.didSelectAskFor(row: index)
                 picker.showsSelectionIndicator = true
             }
            
@@ -452,12 +465,12 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let index = getRandomIndex(size: count)
             DispatchQueue.main.async {
                 picker.selectRow(index, inComponent: 0, animated: true)
+                self.didSelectSuggestion(row: index)
                 picker.showsSelectionIndicator = true
             }
             
-           
         default:
-            print("how did we get here?")
+            os_log("spinPicker tag = %d - how did we get here?", sender.tag)
         }
       
     }
@@ -470,14 +483,6 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return index
     }
     
-    
-    
-    /*
-     int spin1 = arc4random() % self.totalAskFors;
-      [picker selectRow:(self.multiplier - 2) * self.totalAskFors + spin1 inComponent:0 animated:YES];
-     */
-    
-   
 }
 
 // MARK: - private model update functions
