@@ -38,7 +38,6 @@ class RandomizerViewModel {
         cModel.updateCategories()
        
         aModel.currentCategory = nil
-        
         aModel.updateAskFors()
         askForArray = convertAskForsObjectArrayToStringArray(moArray: aModel.askFors )
        
@@ -112,6 +111,12 @@ class RandomizerViewModel {
     func askForForTitle(title: String) -> AskFor {
         guard let askForModel = askForModel else { return AskFor() }
         return askForModel.askForForString(title: title)
+    }
+    
+    func deleteBadAskFors() {
+        let askFor = askForForTitle(title: "clergy/parishioner")
+        guard let askForModel = askForModel else { return  }
+        askForModel.delete(askFor: askFor, completion: nil)
     }
     
     func updateSuggestionsForCategory(title: String)  {
