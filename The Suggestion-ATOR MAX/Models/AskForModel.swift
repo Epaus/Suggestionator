@@ -97,6 +97,19 @@ class AskForModel {
         }
     }
     
+    func delete(askFor: AskFor, indexPath: IndexPath, completion:((Error?) -> Void)? = nil) {
+        
+        managedContext.delete(askFor)
+        
+        do {
+            try managedContext.save()
+            completion?(nil)
+        } catch let error as NSError {
+            os_log("Deleting error: ",error.userInfo)
+            completion?(error)
+        }
+    }
+    
     func delete(askFor: AskFor, completion:((Error?) -> Void)? = nil) {
            
            managedContext.delete(askFor)
