@@ -83,7 +83,6 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         guard model != nil else { return }
-        updatePickersForModels()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -487,30 +486,6 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 // MARK: - private model update functions
 private extension RandomizerViewController {
-    
-    func updatePickersForModels() {
-        checkForEmptyModels()
-        
-        guard let rModel = self.model,
-            let categoryModel = rModel.categoryModel,
-            let askForModel = rModel.askForModel,
-            let suggestionModel = rModel.suggestionModel else { return }
-        
-        let selectedCategoryRow = categoryPicker.selectedRow(inComponent: 0)
-        categoryModel.currentCategory = categoryModel.categories[selectedCategoryRow] as? SceneCategory
-        categoryModel.updateCategories()
-        categoryPicker.reloadAllComponents()
-        
-        let selectedAskForRow = askForPicker.selectedRow(inComponent: 0)
-        askForModel.currentCategory = categoryModel.currentCategory
-        askForModel.updateAskFors()
-        askForModel.currentAskFor = askForModel.currentCategory?.askFors?[selectedAskForRow] as? AskFor
-        askForPicker.reloadAllComponents()
-        
-        suggestionModel.currentAskFor = askForModel.currentAskFor
-        askForModel.updateSuggestions()
-        suggestionPicker.reloadAllComponents()
-    }
     
     func checkForEmptyModels() {
         guard let rModel = self.model,
