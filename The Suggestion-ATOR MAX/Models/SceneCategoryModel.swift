@@ -82,5 +82,20 @@ class SceneCategoryModel {
         return result
     }
     
+    func deleteCategory(category: SceneCategory) {
+        guard let askFors = category.askFors else { return  }
+        
+        for askFor in askFors  {
+            guard let askFor = askFor as? AskFor,
+                let suggestions = (askFor as AskFor).suggestions else { break }
+            for suggestion in suggestions {
+                guard let suggest = (suggestion as? Suggestion) else { break }
+                managedContext.delete(suggest)
+            }
+            managedContext.delete(askFor)
+        }
+        managedContext.delete(category)
+    }
+    
     
 }

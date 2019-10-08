@@ -144,7 +144,8 @@ extension SceneCategoryController : UITableViewDataSource {
             let categoryToRemove = model.categories[indexPath.row] as? SceneCategory,
             editingStyle == .delete else { return }
         
-        model.managedContext.delete(categoryToRemove)
+        //model.managedContext.delete(categoryToRemove)
+        model.deleteCategory(category: categoryToRemove)
         do {
             try model.managedContext.save()
             model.updateCategories()
