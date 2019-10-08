@@ -34,7 +34,7 @@ class SceneCategoryModel {
                 categories = [NSManagedObject]()
             }
         } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
+            os_log("Category Fetch error description:", error.userInfo)
         }
     }
     

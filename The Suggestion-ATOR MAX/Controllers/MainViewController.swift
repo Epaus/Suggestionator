@@ -81,15 +81,5 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate  {
         return UITabBarItem(title: title, image: image, selectedImage: selectedImage)
     }
     
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        print("TAB BAR \(item.tag) SELECTED")
-        switch item.tag {
-        case 1:
-            print("the catalog vc")
-            //catalogVC.managedContext = managedContext
-        default:
-            print("the spinner vc")
-        }
-    }
 }
 

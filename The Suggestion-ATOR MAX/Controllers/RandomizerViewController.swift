@@ -420,7 +420,6 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         } else {
             rModel.updateSuggestionsArray(askFor: pickerTitle)
             askForSpinnerButton.setTitle(pickerTitle, for: .normal)
-            print("AskFor pickerTitle = ", pickerTitle)
         }
         askForSpinnerButton.setNeedsLayout()
         suggestionPicker.reloadAllComponents()
@@ -437,7 +436,6 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let index = row % rModel.suggestionsArray.count
         let suggestion = rModel.suggestionsArray[index]
         suggestionSpinnerButton.setTitle(suggestion, for: .normal)
-        print("suggestion titleLabel = ", suggestion)
     }
 }
 

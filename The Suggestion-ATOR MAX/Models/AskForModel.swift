@@ -73,7 +73,7 @@ class AskForModel {
                 askFors = [NSManagedObject]()
             }
         } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
+             os_log("AskFor Fetch error description:", error.userInfo)
         }
     }
     
@@ -143,7 +143,7 @@ class AskForModel {
                 suggestions = [NSManagedObject]()
             }
         } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
+            os_log("AskFor Fetch error description:", error.userInfo)
         }
     }
     

@@ -64,7 +64,7 @@ class SuggestionModel {
                 suggestions = [NSManagedObject]()
             }
         } catch let error as NSError {
-            print("Fetch error: \(error) description: \(error.userInfo)")
+             os_log("Suggestion Fetch error description:", error.userInfo)
         }
     }
 }

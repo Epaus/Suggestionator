@@ -128,9 +128,7 @@ class RandomizerViewModel {
         let category = categoryForTitle(title: title)
         categoryModel?.currentCategory = category
         if title == "ALL" {
-            initializeModels(completion: {
-                print("ALL category - what to do now?")
-            })
+            initializeModels(completion: nil)
         } else {
             guard let askFors = categoryModel?.currentCategory?.askFors else { return }
             
