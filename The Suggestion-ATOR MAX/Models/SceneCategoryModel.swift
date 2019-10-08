@@ -87,14 +87,26 @@ class SceneCategoryModel {
         
         for askFor in askFors  {
             guard let askFor = askFor as? AskFor,
-                let suggestions = (askFor as AskFor).suggestions else { break }
+                let suggestions = (askFor as AskFor).suggestions else {
+                    os_log("SceneCategoryModel Deleting error: no suggestions for category: ", category.title ?? "")
+                    break
+            }
             for suggestion in suggestions {
-                guard let suggest = (suggestion as? Suggestion) else { break }
+                guard let suggest = (suggestion as? Suggestion) else {
+                    os_log("SceneCategoryModel Deleting error: no suggestions for category: ", category.title ?? "")
+                    break }
                 managedContext.delete(suggest)
             }
             managedContext.delete(askFor)
         }
         managedContext.delete(category)
+        do {
+            try managedContext.save()
+            
+        } catch let error as NSError {
+            os_log("SceneCategoryModel Deleting error: ",error.userInfo)
+        }
+        
     }
     
     

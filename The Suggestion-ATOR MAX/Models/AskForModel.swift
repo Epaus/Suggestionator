@@ -111,17 +111,26 @@ class AskForModel {
     }
     
     func delete(askFor: AskFor, completion:((Error?) -> Void)? = nil) {
-           
-           managedContext.delete(askFor)
-           
-           do {
-               try managedContext.save()
-               completion?(nil)
-           } catch let error as NSError {
-               os_log("Deleting error: ",error.userInfo)
-               completion?(error)
-           }
-       }
+        
+        guard let suggestions = (askFor as AskFor).suggestions else {
+            os_log("AskForModel Deleting error: no suggestions for askFor: ",askFor.askFor ?? "")
+            return
+            
+        }
+        for suggestion in suggestions {
+            guard let suggest = (suggestion as? Suggestion) else { break }
+            managedContext.delete(suggest)
+        }
+        managedContext.delete(askFor)
+        
+        do {
+            try managedContext.save()
+            completion?(nil)
+        } catch let error as NSError {
+            os_log("AskForModel Deleting error: ",error.userInfo)
+            completion?(error)
+        }
+    }
     
     func updateSuggestions() {
         let suggestionFetch: NSFetchRequest<Suggestion> = Suggestion.fetchRequest()
