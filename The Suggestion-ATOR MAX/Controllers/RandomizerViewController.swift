@@ -82,7 +82,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
    
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
-        guard model != nil else { return }
+        guard let vm = model else { return }
+        vm.initializeModels(completion: {
+            vm.populateArrays()
+            self.categoryPicker.reloadAllComponents()
+            self.categoryPicker.selectRow(0, inComponent:0, animated:false)
+            self.askForPicker.reloadAllComponents()
+            self.askForPicker.selectRow(0, inComponent:0, animated:false)
+            self.suggestionPicker.reloadAllComponents()
+            self.suggestionPicker.selectRow(500, inComponent:0, animated:false)
+        })
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,16 +115,16 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         adjustConstraintsForOrientation()
         checkForEmptyModels()
-        guard let vm = model else { return }
-        vm.initializeModels(completion: {
-            vm.populateArrays()
-            self.categoryPicker.reloadAllComponents()
-            self.categoryPicker.selectRow(0, inComponent:0, animated:false)
-            self.askForPicker.reloadAllComponents()
-            self.askForPicker.selectRow(0, inComponent:0, animated:false)
-            self.suggestionPicker.reloadAllComponents()
-            self.suggestionPicker.selectRow(500, inComponent:0, animated:false)
-        })
+//        guard let vm = model else { return }
+//        vm.initializeModels(completion: {
+//            vm.populateArrays()
+//            self.categoryPicker.reloadAllComponents()
+//            self.categoryPicker.selectRow(0, inComponent:0, animated:false)
+//            self.askForPicker.reloadAllComponents()
+//            self.askForPicker.selectRow(0, inComponent:0, animated:false)
+//            self.suggestionPicker.reloadAllComponents()
+//            self.suggestionPicker.selectRow(500, inComponent:0, animated:false)
+//        })
     }
     
     
@@ -351,9 +360,7 @@ class RandomizerViewController: UIViewController, UIPickerViewDelegate, UIPicker
             var index = 0
             if model.suggestionsArray.count > 0 {
                 index = row % model.suggestionsArray.count
-            }
-            if model.suggestionsArray.count > 1 {
-                title = model.suggestionsArray[index]
+                 title = model.suggestionsArray[index]
             } else {
                 title = ""
             }

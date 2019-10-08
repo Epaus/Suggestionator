@@ -21,7 +21,7 @@ class AskForsController: UIViewController {
         guard let model = self.model else { return }
         navigationItem.title = model.currentCategory?.title
         if (model.currentCategory?.askFors?.count ?? 0) == 0 {
-            addAskForAlert(title: "New AskFor Requires a Suggestion", message: "Please enter a new Suggestion.")
+            addAskForAlert(title: "You need to have at least 1 AskFor per Category.", message: "Please enter a new AskFor.")
             navigationItem.hidesBackButton = true
         } else {
             navigationItem.hidesBackButton = false

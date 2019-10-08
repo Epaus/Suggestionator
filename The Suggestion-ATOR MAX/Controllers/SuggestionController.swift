@@ -20,7 +20,7 @@ class SuggestionController: UIViewController {
         guard let model = self.model else { return }
         navigationItem.title = model.currentAskFor?.askFor
         if (model.currentAskFor?.suggestions?.count ?? 0) == 0 {
-            addSuggestionAlert(title: "New AskFor Requires a Suggestion", message: "Please enter a new Suggestion.")
+            addSuggestionAlert(title: "You need to have at least 1 suggestion per AskFor.", message: "Please enter a new Suggestion.")
             navigationItem.hidesBackButton = true
         } else {
             navigationItem.hidesBackButton = false

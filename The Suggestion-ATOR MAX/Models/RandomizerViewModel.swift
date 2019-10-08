@@ -51,6 +51,10 @@ class RandomizerViewModel {
     }
     
     func populateArrays() {
+        categoryArray = ["ALL"]
+        askForArray = ["ALL"]
+        suggestionsArray = [String]()
+        
         guard let cModel = categoryModel,
          let aModel = askForModel,
          let sModel = suggestionModel else { return }
